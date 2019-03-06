@@ -102,6 +102,8 @@ public class GoodsServiceImpl implements GoodsService {
                     && !"".equals(goods.getSellerId()) && goods.getSellerId() != null) {
                 criteria.andSellerIdEqualTo(goods.getSellerId());
             }
+            //        已经下架商品不再显示
+            criteria.andIsDeleteIsNull();
         }
         Page<Goods> goodsList = (Page<Goods>)goodsDao.selectByExample(query);
         return new PageResult(goodsList.getTotal(), goodsList.getResult());
@@ -127,7 +129,7 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public void update(GoodsEntity goodsEntity) {
+    public void update(final GoodsEntity goodsEntity) {
         //1. 保存修改商品对象
         goodsDao.updateByPrimaryKeySelective(goodsEntity.getGoods());
 
@@ -142,6 +144,17 @@ public class GoodsServiceImpl implements GoodsService {
 
         //4. 从新添加保存商品的库存集合数据
         insertItemList(goodsEntity);
+        Goods goods = goodsEntity.getGoods();
+        goods.setAuditStatus("0");
+        goodsDao.updateByPrimaryKey(goods);
+//        发送点对点消息,删除solr中的数据
+        jmsTemplate.send(queueSolrDeleteDestination, new MessageCreator() {
+            @Override
+            public Message createMessage(Session session) throws JMSException {
+                TextMessage textMessage = session.createTextMessage(String.valueOf(goodsEntity.getGoods().getId()));
+                return textMessage;
+            }
+        });
     }
 
     @Override
@@ -257,7 +270,7 @@ public class GoodsServiceImpl implements GoodsService {
                 for (Item item : goodsEntity.getItemList()) {
                     //初始化库存对象的属性值
                     item = setItemValue(goodsEntity, item);
-
+                    item.setStatus("0");
                     //库存标题: 使用商品名+规格组成
                     String title = goodsEntity.getGoods().getGoodsName();
                     //获取规格json字符串
@@ -291,6 +304,7 @@ public class GoodsServiceImpl implements GoodsService {
             item.setNum(0);
             //是否默认
             item.setIsDefault("1");
+            item.setStatus("0");
             itemDao.insertSelective(item);
         }
     }

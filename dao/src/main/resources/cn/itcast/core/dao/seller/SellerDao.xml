@@ -414,80 +414,80 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="cn.itcast.core.pojo.seller.Seller" >
-    update tb_seller
-    <set >
-      <if test="name != null" >
-        name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="nickName != null" >
-        nick_name = #{nickName,jdbcType=VARCHAR},
-      </if>
-      <if test="password != null" >
-        password = #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="email != null" >
-        email = #{email,jdbcType=VARCHAR},
-      </if>
-      <if test="mobile != null" >
-        mobile = #{mobile,jdbcType=VARCHAR},
-      </if>
-      <if test="telephone != null" >
-        telephone = #{telephone,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null" >
-        status = #{status,jdbcType=VARCHAR},
-      </if>
-      <if test="addressDetail != null" >
-        address_detail = #{addressDetail,jdbcType=VARCHAR},
-      </if>
-      <if test="linkmanName != null" >
-        linkman_name = #{linkmanName,jdbcType=VARCHAR},
-      </if>
-      <if test="linkmanQq != null" >
-        linkman_qq = #{linkmanQq,jdbcType=VARCHAR},
-      </if>
-      <if test="linkmanMobile != null" >
-        linkman_mobile = #{linkmanMobile,jdbcType=VARCHAR},
-      </if>
-      <if test="linkmanEmail != null" >
-        linkman_email = #{linkmanEmail,jdbcType=VARCHAR},
-      </if>
-      <if test="licenseNumber != null" >
-        license_number = #{licenseNumber,jdbcType=VARCHAR},
-      </if>
-      <if test="taxNumber != null" >
-        tax_number = #{taxNumber,jdbcType=VARCHAR},
-      </if>
-      <if test="orgNumber != null" >
-        org_number = #{orgNumber,jdbcType=VARCHAR},
-      </if>
-      <if test="address != null" >
-        address = #{address,jdbcType=BIGINT},
-      </if>
-      <if test="logoPic != null" >
-        logo_pic = #{logoPic,jdbcType=VARCHAR},
-      </if>
-      <if test="brief != null" >
-        brief = #{brief,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="legalPerson != null" >
-        legal_person = #{legalPerson,jdbcType=VARCHAR},
-      </if>
-      <if test="legalPersonCardId != null" >
-        legal_person_card_id = #{legalPersonCardId,jdbcType=VARCHAR},
-      </if>
-      <if test="bankUser != null" >
-        bank_user = #{bankUser,jdbcType=VARCHAR},
-      </if>
-      <if test="bankName != null" >
-        bank_name = #{bankName,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where seller_id = #{sellerId,jdbcType=VARCHAR}
-  </update>
+  update tb_seller
+  <set >
+    <if test="name != null" >
+      name = #{name,jdbcType=VARCHAR},
+    </if>
+    <if test="nickName != null" >
+      nick_name = #{nickName,jdbcType=VARCHAR},
+    </if>
+    <if test="password != null" >
+      password = #{password,jdbcType=VARCHAR},
+    </if>
+    <if test="email != null" >
+      email = #{email,jdbcType=VARCHAR},
+    </if>
+    <if test="mobile != null" >
+      mobile = #{mobile,jdbcType=VARCHAR},
+    </if>
+    <if test="telephone != null" >
+      telephone = #{telephone,jdbcType=VARCHAR},
+    </if>
+    <if test="status != null" >
+      status = #{status,jdbcType=VARCHAR},
+    </if>
+    <if test="addressDetail != null" >
+      address_detail = #{addressDetail,jdbcType=VARCHAR},
+    </if>
+    <if test="linkmanName != null" >
+      linkman_name = #{linkmanName,jdbcType=VARCHAR},
+    </if>
+    <if test="linkmanQq != null" >
+      linkman_qq = #{linkmanQq,jdbcType=VARCHAR},
+    </if>
+    <if test="linkmanMobile != null" >
+      linkman_mobile = #{linkmanMobile,jdbcType=VARCHAR},
+    </if>
+    <if test="linkmanEmail != null" >
+      linkman_email = #{linkmanEmail,jdbcType=VARCHAR},
+    </if>
+    <if test="licenseNumber != null" >
+      license_number = #{licenseNumber,jdbcType=VARCHAR},
+    </if>
+    <if test="taxNumber != null" >
+      tax_number = #{taxNumber,jdbcType=VARCHAR},
+    </if>
+    <if test="orgNumber != null" >
+      org_number = #{orgNumber,jdbcType=VARCHAR},
+    </if>
+    <if test="address != null" >
+      address = #{address,jdbcType=BIGINT},
+    </if>
+    <if test="logoPic != null" >
+      logo_pic = #{logoPic,jdbcType=VARCHAR},
+    </if>
+    <if test="brief != null" >
+      brief = #{brief,jdbcType=VARCHAR},
+    </if>
+    <if test="createTime != null" >
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+    </if>
+    <if test="legalPerson != null" >
+      legal_person = #{legalPerson,jdbcType=VARCHAR},
+    </if>
+    <if test="legalPersonCardId != null" >
+      legal_person_card_id = #{legalPersonCardId,jdbcType=VARCHAR},
+    </if>
+    <if test="bankUser != null" >
+      bank_user = #{bankUser,jdbcType=VARCHAR},
+    </if>
+    <if test="bankName != null" >
+      bank_name = #{bankName,jdbcType=VARCHAR},
+    </if>
+  </set>
+  where seller_id = #{sellerId,jdbcType=VARCHAR}
+</update>
   <update id="updateByPrimaryKey" parameterType="cn.itcast.core.pojo.seller.Seller" >
     update tb_seller
     set name = #{name,jdbcType=VARCHAR},
