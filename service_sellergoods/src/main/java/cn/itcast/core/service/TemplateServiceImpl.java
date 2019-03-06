@@ -32,6 +32,9 @@ public class TemplateServiceImpl implements TemplateService {
     @Autowired
     private RedisTemplate redisTemplate;
 
+    @Autowired
+    private TypeTemplateDao typeTemplateDao;
+
     @Override
     public PageResult findPage(Integer page, Integer rows, TypeTemplate template) {
         /**
@@ -118,5 +121,23 @@ public class TemplateServiceImpl implements TemplateService {
         }
 
         return specList;
+    }
+
+
+    /*
+    审核商品
+    *
+    * */
+    @Override
+    public void updateStatus(Long[] ids, String status) {
+        if (ids!=null){
+            for (Long id : ids) {
+                TypeTemplate typeTemplate = new TypeTemplate();
+                typeTemplate.setId(id);
+                typeTemplate.setStatus(status);
+                typeTemplateDao.updateByPrimaryKeySelective(typeTemplate);
+
+            }
+        }
     }
 }
