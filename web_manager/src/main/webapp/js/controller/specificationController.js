@@ -83,7 +83,7 @@ app.controller('specificationController' ,function($scope,$controller   ,specifi
     $scope.status = ["未审核","审核通过","审核未通过","关闭"];
     // 审核的方法:
     $scope.specKk = function(status){
-        brandService.specKk($scope.selectIds,status).success(function(response){
+        specificationService.specKk($scope.selectIds,status).success(function(response){
             if(response.success){
                 $scope.reloadList();//刷新列表
                 $scope.selectIds = [];
