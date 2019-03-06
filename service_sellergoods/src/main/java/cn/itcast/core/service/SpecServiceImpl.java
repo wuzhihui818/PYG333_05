@@ -1,6 +1,7 @@
 package cn.itcast.core.service;
 
 import cn.itcast.core.dao.specification.SpecificationDao;
+import cn.itcast.core.dao.specification.SpecificationOptionDao;
 import cn.itcast.core.pojo.entity.PageResult;
 import cn.itcast.core.pojo.entity.SpecEntity;
 import cn.itcast.core.pojo.specification.Specification;
@@ -46,12 +47,15 @@ public class SpecServiceImpl implements SpecService {
     @Override
     public void add(SpecEntity specEntity) {
         //1. 保存规格对象
+        specEntity.getSpecification().setStatus("0");
         specDao.insertSelective(specEntity.getSpecification());
         //2. 遍历规格选项集合
         if (specEntity.getSpecificationOptionList() != null) {
             for (SpecificationOption option : specEntity.getSpecificationOptionList()) {
                 //设置规格选项对象中的规格对象的主键id
                 option.setSpecId(specEntity.getSpecification().getId());
+                //设置审核状态
+                option.setStatus("0");
                 //3. 遍历过程中保存规格选项对象
                 optionDao.insertSelective(option);
             }
