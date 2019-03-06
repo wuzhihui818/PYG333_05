@@ -52,4 +52,18 @@ public class ItemCatServiceImpl implements ItemCatService {
     public List<ItemCat> findAll() {
         return itemCatDao.selectByExample(null);
     }
+
+     //修改分类状态数据
+    @Override
+    public void updateStatus(Long[] ids, String status) {
+        if (ids != null){
+            for (Long id : ids) {
+        ItemCat itemCat = new ItemCat();
+        itemCat.setStatus(status);
+             itemCat.setId(id);
+          itemCatDao.updateByPrimaryKeySelective(itemCat);
+
+         }
+     }
+    }
 }

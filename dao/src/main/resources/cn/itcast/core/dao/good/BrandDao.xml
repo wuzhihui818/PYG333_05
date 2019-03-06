@@ -198,10 +198,4 @@
       status = #{status,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
-
-  <update id="updateStatus" parameterType="cn.itcast.core.pojo.good.Brand">
-    UPDATE tb_brand
-    SET status = #{status,jdbcType=VARCHAR}
-    WHERE id = #{id,jdbcType=BIGINT}
-  </update>
 </mapper>

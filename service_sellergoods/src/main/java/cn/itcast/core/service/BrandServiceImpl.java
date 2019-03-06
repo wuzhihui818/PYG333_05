@@ -54,8 +54,12 @@ public class BrandServiceImpl implements BrandService {
     public void add(Brand brand) {
         //添加的时候, 传入参数brand对象中的所有属性必须有值, 都参与添加
         //brandDao.insert();
+        //新增商品默认状态为"0"
+        brand.setStatus("0");
+
         //添加的时候会判断brand传入参数对象中的属性是否有值, 如果没有值不参与添加, 如果有值再拼接到sql语句中参与添加
         brandDao.insertSelective(brand);
+
     }
 
     @Override

@@ -5,7 +5,16 @@ app.service('typeTemplateService',function($http){
 	this.findAll=function(){
 		return $http.get('../typeTemplate/findAll.do');		
 	}
-	//分页 
+
+    //审核状态
+    //修改
+    this.templateYes = function(ids,status){
+        return $http.get('../typeTemplate/updateStatus.do?ids='+ids+"&status="+status);
+    }
+
+
+
+    //分页
 	this.findPage=function(page,rows){
 		return $http.get('../typeTemplate/findPage.do?page='+page+'&rows='+rows);
 	}

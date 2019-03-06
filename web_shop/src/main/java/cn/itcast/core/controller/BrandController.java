@@ -5,7 +5,6 @@ import cn.itcast.core.pojo.entity.Result;
 import cn.itcast.core.pojo.good.Brand;
 import cn.itcast.core.service.BrandService;
 import com.alibaba.dubbo.config.annotation.Reference;
-import org.apache.ibatis.io.ResolverUtil;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +16,7 @@ import java.util.Map;
  * 品牌管理
  */
 @RestController
-@RequestMapping("/brands")
+@RequestMapping("/brand")
 public class BrandController {
 
     @Reference
@@ -124,18 +123,4 @@ public class BrandController {
     public List<Map> selectOptionList() {
         return brandService.selectOptionList();
     }
-
-    @RequestMapping("/updateStatus")
-    public Result updateStatus(Long[] ids,String status){
-        try {
-            brandService.updateStatus(ids,status);
-            return new Result(true,"状态修改成功");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new Result(false,"状态修改失败");
-        }
-    }
-
 }
-
-
