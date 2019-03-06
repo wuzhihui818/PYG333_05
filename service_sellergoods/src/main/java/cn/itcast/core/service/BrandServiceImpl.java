@@ -4,12 +4,14 @@ import cn.itcast.core.dao.good.BrandDao;
 import cn.itcast.core.pojo.entity.PageResult;
 import cn.itcast.core.pojo.good.Brand;
 import cn.itcast.core.pojo.good.BrandQuery;
+import cn.itcast.core.pojo.seller.Seller;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +21,8 @@ public class BrandServiceImpl implements BrandService {
 
     @Autowired
     private BrandDao brandDao;
+
+
 
     @Override
     public List<Brand> findAll() {
@@ -89,5 +93,17 @@ public class BrandServiceImpl implements BrandService {
     public List<Map> selectOptionList() {
         List<Map> list = brandDao.selectOptionList();
         return list;
+    }
+
+    @Override
+    public void updateStatus(Long[] ids, String status) {
+        if (ids != null) {
+            for (Long id : ids) {
+                Brand brand = new Brand();
+                brand.setId(id);
+                brand.setStatus(status);
+                brandDao.updateByPrimaryKeySelective(brand);
+            }
+        }
     }
 }

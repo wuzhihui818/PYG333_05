@@ -1,6 +1,7 @@
 package cn.itcast.core.service;
 
 import cn.itcast.core.dao.specification.SpecificationDao;
+import cn.itcast.core.dao.specification.SpecificationOptionDao;
 import cn.itcast.core.pojo.entity.PageResult;
 import cn.itcast.core.pojo.entity.SpecEntity;
 import cn.itcast.core.pojo.specification.Specification;
