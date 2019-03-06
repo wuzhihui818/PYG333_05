@@ -70,7 +70,7 @@ app.controller("brandController",function($scope,$controller,$http,brandService)
 	}
 	
 	$scope.searchEntity={};
-	
+/*   /!**!/ $scope.status = ["未审核","审核通过"];*/
 	// 假设定义一个查询的实体：searchEntity
 	$scope.search = function(page,rows){
 		// 向后台发送请求获取数据:
@@ -79,5 +79,6 @@ app.controller("brandController",function($scope,$controller,$http,brandService)
 			$scope.list = response.rows;
 		});
 	}
-	
+    // 显示状态
+    $scope.status = ["未审核","审核通过"];
 });

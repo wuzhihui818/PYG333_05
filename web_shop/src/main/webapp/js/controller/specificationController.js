@@ -76,9 +76,7 @@ app.controller('specificationController' ,function($scope,$controller   ,specifi
 			}			
 		);
 	}
-	
-	
-	
+
 	$scope.addTableRow = function(){
 		$scope.entity.specificationOptionList.push({});
 	}
