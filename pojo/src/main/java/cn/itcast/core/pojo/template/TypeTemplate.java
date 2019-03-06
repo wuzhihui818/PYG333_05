@@ -27,6 +27,8 @@ public class TypeTemplate implements Serializable {
 
     private String status;
 
+
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {

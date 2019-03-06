@@ -10,35 +10,9 @@ app.controller('typeTemplateController' ,function($scope,$controller,brandServic
 				$scope.list=response;
 			}			
 		);
-	}
-
-
-
-
-
-
-/*/!*
-    //模板审核
-// 显示状态*!/*/
-    $scope.status = ["未审核","审核通过","审核未通过","关闭"];
-/*/!*!// 审核的方法:*!/*/
-    $scope.templateYes = function(status){
-
-        typeTemplateService.templateYes($scope.selectIds,status).success(function(response){
-
-            if(response.success){
-                $scope.reloadList();//刷新列表
-                $scope.selectIds = [];
-            }else{
-                alert(response.message);
-            }
-        });
-    }
-
-
-
-
-    //分页
+	}    
+	
+	//分页
 	$scope.findPage=function(page,rows){			
 		typeTemplateService.findPage(page,rows).success(
 			function(response){
