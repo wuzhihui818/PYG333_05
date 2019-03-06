@@ -39,7 +39,7 @@ public class TemplateServiceImpl implements TemplateService {
          */
         //查询所有模板数据
         List<TypeTemplate> templates = templateDao.selectByExample(null);
-        if (templates != null) {
+       /* if (templates != null) {
             for (TypeTemplate typeTemplate : templates) {
                 //获取品牌json字符串
                 String brandJsonStr = typeTemplate.getBrandIds();
@@ -51,7 +51,7 @@ public class TemplateServiceImpl implements TemplateService {
                 List<Map> speList = findBySpecList(typeTemplate.getId());
                 redisTemplate.boundHashOps(Constants.REDIS_SPEC_LIST).put(typeTemplate.getId(), speList);
             }
-        }
+        }*/
 
         /**
          * 分页查询
@@ -71,6 +71,7 @@ public class TemplateServiceImpl implements TemplateService {
 
     @Override
     public void add(TypeTemplate template) {
+        template.setStatus("0");
         templateDao.insertSelective(template);
     }
 
