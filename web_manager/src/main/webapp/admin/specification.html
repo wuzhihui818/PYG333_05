@@ -42,14 +42,13 @@
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-default" title="新建" ng-click="entity={specificationOptionList:[]}" data-toggle="modal" data-target="#editModal" ><i class="fa fa-file-o"></i> 新建</button>
                                         <button type="button" class="btn btn-default" title="删除" ng-click="dele()" ><i class="fa fa-trash-o"></i> 删除</button>
-                                        
                                         <button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i class="fa fa-refresh"></i> 刷新</button>
                                     </div>
                                 </div>
                             </div>
                             <div class="box-tools pull-right">
                                 <div class="has-feedback">
-							                    规格名称：<input ng-model="searchEntity.specName" >
+							                    规格名称：<input  ng-model="searchEntity.specName">
 									<button class="btn btn-default" ng-click="reloadList()" >查询</button>
                                 </div>
                             </div>
@@ -62,8 +61,9 @@
 			                                  <input id="selall" type="checkbox" class="icheckbox_square-blue">
 			                              </th> 
 										  <th class="sorting_asc">规格ID</th>
-									      <th class="sorting">规格名称</th>									     												
-					                      <th class="text-center">操作</th>
+									      <th class="sorting">规格名称</th>
+										  <th class="sorting">状态</th>
+										  <th class="text-center">操作</th>
 			                          </tr>
 			                      </thead>
 			                      <tbody>
@@ -71,6 +71,7 @@
 			                              <td><input  type="checkbox" ng-click="updateSelection($event,entity.id)"></td>			                              
 				                          <td>{{entity.id}}</td>
 									      <td>{{entity.specName}}</td>
+										  <td>{{entity.status}}</td>
 		                                  <td class="text-center">                                           
 		                                 	  <button type="button" class="btn bg-olive btn-xs" ng-click="findOne(entity.id)" data-toggle="modal" data-target="#editModal">修改</button>                                           
 		                                  </td>

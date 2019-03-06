@@ -1,7 +1,6 @@
 //服务层
 app.service('specificationService',function($http){
-	    	
-	//读取列表数据绑定到表单中
+    //读取列表数据绑定到表单中
 	this.findAll=function(){
 		return $http.get('../specification/findAll.do');		
 	}

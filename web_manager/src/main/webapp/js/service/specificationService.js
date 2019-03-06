@@ -1,7 +1,13 @@
 //服务层
 app.service('specificationService',function($http){
-	    	
-	//读取列表数据绑定到表单中
+
+    //审核状态
+//修改
+    this.specKk = function(ids,status){
+        return $http.get('../specification/updateStatus.do?ids='+ids+"&status="+status);
+    }
+
+    //读取列表数据绑定到表单中
 	this.findAll=function(){
 		return $http.get('../specification/findAll.do');		
 	}

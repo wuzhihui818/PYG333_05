@@ -10,8 +10,8 @@ app.controller('specificationController' ,function($scope,$controller   ,specifi
 				$scope.list=response;
 			}			
 		);
-	}    
-	
+	}
+
 	//分页
 	$scope.findPage=function(page,rows){			
 		specificationService.findPage(page,rows).success(
@@ -76,8 +76,22 @@ app.controller('specificationController' ,function($scope,$controller   ,specifi
 			}			
 		);
 	}
-	
-	
+
+
+    //规格审核
+    // 显示状态
+    $scope.status = ["未审核","审核通过","审核未通过","关闭"];
+    // 审核的方法:
+    $scope.specKk = function(status){
+        brandService.specKk($scope.selectIds,status).success(function(response){
+            if(response.success){
+                $scope.reloadList();//刷新列表
+                $scope.selectIds = [];
+            }else{
+                alert(response.message);
+            }
+        });
+    }
 	
 	$scope.addTableRow = function(){
 		$scope.entity.specificationOptionList.push({});
