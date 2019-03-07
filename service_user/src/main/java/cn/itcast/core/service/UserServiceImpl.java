@@ -1,14 +1,21 @@
 package cn.itcast.core.service;
 
+import cn.itcast.core.common.Constants;
 import cn.itcast.core.dao.user.UserDao;
+import cn.itcast.core.pojo.entity.PageResult;
+import cn.itcast.core.pojo.good.Brand;
+import cn.itcast.core.pojo.good.BrandQuery;
 import cn.itcast.core.pojo.user.User;
+import cn.itcast.core.pojo.user.UserQuery;
+
 import com.alibaba.dubbo.config.annotation.Service;
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.apache.activemq.command.ActiveMQMapMessage;
 import org.apache.activemq.command.ActiveMQQueue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.BoundValueOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
@@ -18,6 +25,7 @@ import javax.jms.MapMessage;
 import javax.jms.Message;
 import javax.jms.Session;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -91,6 +99,49 @@ public class UserServiceImpl implements UserService {
     public void add(User user) {
         userDao.insertSelective(user);
     }
+
+    @Override
+    public PageResult search(Integer page, Integer rows, User user) {
+        //创建查询对象
+        UserQuery query = new UserQuery();
+        //组装条件
+        if (user != null) {
+            //创建sql语句中的where条件对象
+            UserQuery.Criteria criteria = query.createCriteria();
+            if (user.getId() != null && !"".equals(user.getId())) {
+                criteria.andIdEqualTo(user.getId());
+            }
+            if (user.getName() != null && !"".equals(user.getName())) {
+                criteria.andNameLike("%"+user.getName()+"%");
+            }
+        }
+        PageHelper.startPage(page, rows);
+        //查询
+        Page<User> userList = (Page<User>)userDao.selectByExample(query);
+        return new PageResult(userList.getTotal(), userList.getResult());
+    }
+
+    @Override
+    public void updateStatus(Long[] ids, String status) {
+        if (ids!=null){
+            for (Long id : ids) {
+                User user = new User();
+                user.setId(id);
+                user.setStatus(status);
+                userDao.updateByPrimaryKeySelective(user);
+            }
+        }
+    }
+
+    @Override
+    public List<User> findOne(String username) {
+       UserQuery query =new UserQuery();
+       UserQuery.Criteria criteria = query.createCriteria();
+       criteria.andUsernameEqualTo(username);
+        List<User> users = userDao.selectByExample(query);
+        return users;
+    }
+
 
     public static void main(String[] args) {
         long s = (long)(Math.random() * 1000000);

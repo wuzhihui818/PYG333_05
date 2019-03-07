@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -68,4 +69,10 @@ public class UserController {
             return new Result(false, "注册失败!");
         }
     }
+//    @RequestMapping("")
+//    public List<User>  checkStatus(String userName){
+//        List<User> userList = userService.findOne(userName);
+//        System.out.println("????????????????????/");
+//        return userList;
+//    }
 }
