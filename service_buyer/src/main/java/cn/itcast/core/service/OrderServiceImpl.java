@@ -13,6 +13,7 @@ import cn.itcast.core.pojo.order.OrderItem;
 import cn.itcast.core.pojo.order.OrderQuery;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.transaction.annotation.Transactional;
@@ -73,15 +74,16 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public PageResult findByPage(String name) {
-        Page<Order> orders=new Page<>();
-        if (name!=null){
+    public PageResult findByPage(Integer page,Integer rows,Order order) {
+        PageHelper.startPage(page,rows);
+
+
             OrderQuery query=new OrderQuery();
             OrderQuery.Criteria criteria = query.createCriteria();
-            criteria.andSellerIdEqualTo(name);
-             orders =(Page<Order>) orderDao.selectByExample(query);
+            criteria.andSellerIdEqualTo(order.getSellerId());
+            Page<Order> orders =(Page<Order>) orderDao.selectByExample(query);
 
-        }
+
         return new PageResult(orders.getTotal(),orders.getResult());
     }
 

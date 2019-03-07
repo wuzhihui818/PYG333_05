@@ -38,15 +38,5 @@ public class OrderControllor {
         }
     }
 
-    /**
-     * 根据当前商家名查询订单 返回分页信息
-     * @return
-     */
-    @RequestMapping("/findByPage")
-    public PageResult findByPage(){
-        String name = SecurityContextHolder.getContext().getAuthentication().getName();
-        PageResult pageList = orderService.findByPage(name);
-        return pageList;
-    }
 
 }

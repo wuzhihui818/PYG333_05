@@ -7,5 +7,5 @@ import cn.itcast.core.pojo.order.Order;
 public interface OrderService {
     void add(Order order, String userName);
 
-    PageResult findByPage(String name);
+    PageResult findByPage(Integer page,Integer rows,Order order);
 }
