@@ -14,6 +14,9 @@ import java.util.Map;
 public class PayController {
     @Reference
     private PayService payService;
+    /**
+     * 修改创建二维码的方法
+     */
 
     /**
      * 创建支付二维码
