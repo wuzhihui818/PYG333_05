@@ -1,9 +1,12 @@
 package cn.itcast.core.controller;
 
 import cn.itcast.core.pojo.entity.Result;
+import cn.itcast.core.pojo.order.Order;
+import cn.itcast.core.pojo.order.OrderItem;
 import cn.itcast.core.service.PayService;
 import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,9 +17,6 @@ import java.util.Map;
 public class PayController {
     @Reference
     private PayService payService;
-    /**
-     * 修改创建二维码的方法
-     */
 
     /**
      * 创建支付二维码
@@ -50,5 +50,18 @@ public class PayController {
             return new Result(false,"支付失败");
 
         }
+    }
+
+
+    /**
+     * 未付款订单 支付
+     * @param order 页面传过来的 未付款的订单
+     * @return 支付结果
+     */
+    @RequestMapping("/payOrder")
+    public Map payOrder(@RequestBody Order order){
+        String userName = order.getUserId();
+        Map map = payService.creatNative(userName);
+        return map;
     }
 }

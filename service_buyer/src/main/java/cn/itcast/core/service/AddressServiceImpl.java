@@ -19,4 +19,28 @@ public class AddressServiceImpl implements AddressService {
         List<Address> addressList = addressDao.selectByExample(addressQuery);
         return addressList;
     }
+
+    @Override
+    public void addAddress(Address address) {
+        addressDao.insertSelective(address);
+    }
+
+    @Override
+    public void delAddress(Address address) {
+        Long id = address.getId();
+        if (id!=null){
+            addressDao.deleteByPrimaryKey(id);
+        }
+
+    }
+
+    @Override
+    public void updateAddress(Address address) {
+        Long id = address.getId();
+        addressDao.deleteByPrimaryKey(id);
+
+        addressDao.insertSelective(address);
+
+
+    }
 }

@@ -6,4 +6,10 @@ import java.util.List;
 
 public interface AddressService {
     List<Address> findAddressListByLoginUser(String userName);
+
+    void addAddress(Address address);
+
+    void delAddress(Address address);
+
+    void updateAddress(Address address);
 }
