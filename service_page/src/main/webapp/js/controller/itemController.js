@@ -78,6 +78,21 @@ app.controller("itemController",function($scope,$http){
 				);	
 		
 	}
+	$scope.addToCollect=function(){
+		//alert('SKUID:'+$scope.sku.id );
+
+		$http.get('http://localhost:8080/collect/addGoodsToCollectList.do?itemId='
+				+$scope.sku.id ,{'withCredentials':true} ).success(
+					function(response){
+						if(response.success){
+                            alert(response.message);
+						}else{
+							alert(response.message);
+						}
+					}
+				);
+
+	}
 	
 	
 });

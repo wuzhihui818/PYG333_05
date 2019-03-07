@@ -11,5 +11,6 @@ app.controller("contentController",function($scope,contentService){
 	$scope.search=function(){
 		location.href="http://localhost:8080/search.html#?keywords="+$scope.keywords;
 	}
+
 	
 });

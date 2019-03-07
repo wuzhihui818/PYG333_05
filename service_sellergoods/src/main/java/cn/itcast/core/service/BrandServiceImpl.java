@@ -93,6 +93,5 @@ public class BrandServiceImpl implements BrandService {
     public List<Map> selectOptionList() {
         List<Map> list = brandDao.selectOptionList();
         return list;
-//        jsdgkjdhfkjsgdhfgjdgsf
     }
 }

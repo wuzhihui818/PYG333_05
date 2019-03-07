@@ -9,11 +9,19 @@ import cn.itcast.core.pojo.log.PayLogQuery;
 import cn.itcast.core.pojo.order.Order;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.wxpay.sdk.WXPayUtil;
+import org.apache.activemq.ScheduledMessage;
+import org.apache.activemq.command.ActiveMQQueue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.Session;
+import javax.jms.TextMessage;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,6 +30,10 @@ import java.util.Map;
 public class PayServiceImpl implements PayService {
     @Autowired
     private RedisTemplate redisTemplate;
+    @Autowired
+    private JmsTemplate jmsTemplate;
+    @Autowired
+    private ActiveMQQueue close_order;
     @Value("${appid}")
     private String appid;
     @Value("${partner}")
@@ -38,8 +50,8 @@ public class PayServiceImpl implements PayService {
     private PayLogDao payLogDao;
 
     @Override
-    public Map creatNative(String userName) {
-        PayLog payLog = (PayLog) redisTemplate.boundHashOps(Fields.PAY_LOG_REDIS).get(userName);
+    public Map creatNative(final String userName) {
+        final PayLog payLog = (PayLog) redisTemplate.boundHashOps(Fields.PAY_LOG_REDIS).get(userName);
 //         创建参数,发送到微信支付
         Map xmlMap = creatWXPayXmlMap(payLog.getOutTradeNo());
         try {
@@ -57,6 +69,15 @@ public class PayServiceImpl implements PayService {
             map.put("code_url", contentMap.get("code_url"));
             map.put("total_fee", payLog.getTotalFee().toString());
             map.put("out_trade_no", payLog.getOutTradeNo());
+//            发送点对点延时消息,超过一定时间,查询后如果还未支付则关闭订单
+            jmsTemplate.send(close_order, new MessageCreator() {
+                @Override
+                public Message createMessage(Session session) throws JMSException {
+                    TextMessage textMessage = session.createTextMessage(userName);
+                    textMessage.setLongProperty(ScheduledMessage.AMQ_SCHEDULED_DELAY,1000*60);
+                    return textMessage;
+                }
+            });
             return map;
 
         } catch (Exception e) {
@@ -109,7 +130,7 @@ public class PayServiceImpl implements PayService {
 
     }
 
-    //修改付款后的状态信心
+    //修改付款后的状态信息
     private void updateState(PayLog payLog) {
         String outTradeNo = payLog.getOutTradeNo();
         payLog.setTradeState("1");

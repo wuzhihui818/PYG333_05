@@ -174,6 +174,7 @@
 								<ul class="btn-choose unstyled">
 									<li>
 										<a  class="sui-btn  btn-danger addshopcar" ng-click="addToCart()">加入购物车</a>
+                                        <a  class="sui-btn  btn-danger addshopcar" ng-click="addToCollect()">收藏</a>
 									</li>
 								</ul>
 							</div>
