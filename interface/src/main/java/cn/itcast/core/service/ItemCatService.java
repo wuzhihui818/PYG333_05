@@ -13,4 +13,6 @@ public interface ItemCatService {
 
     public List<ItemCat> findAll();
     public void updateStatus (Long [] ids, String status);
+
+    void addItemCat(ItemCat itemCat);
 }

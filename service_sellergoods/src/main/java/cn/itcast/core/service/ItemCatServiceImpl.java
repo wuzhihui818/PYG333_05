@@ -66,4 +66,9 @@ public class ItemCatServiceImpl implements ItemCatService {
          }
      }
     }
+
+    @Override
+    public void addItemCat(ItemCat itemCat) {
+        itemCatDao.insertSelective(itemCat);
+    }
 }

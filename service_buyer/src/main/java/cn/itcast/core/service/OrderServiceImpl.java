@@ -6,10 +6,13 @@ import cn.itcast.core.dao.order.OrderDao;
 import cn.itcast.core.dao.order.OrderItemDao;
 import cn.itcast.core.pojo.entity.BuyerCart;
 import cn.itcast.core.pojo.entity.Fields;
+import cn.itcast.core.pojo.entity.PageResult;
 import cn.itcast.core.pojo.log.PayLog;
 import cn.itcast.core.pojo.order.Order;
 import cn.itcast.core.pojo.order.OrderItem;
+import cn.itcast.core.pojo.order.OrderQuery;
 import com.alibaba.dubbo.config.annotation.Service;
+import com.github.pagehelper.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.transaction.annotation.Transactional;
@@ -67,6 +70,19 @@ public class OrderServiceImpl implements OrderService {
         redisTemplate.boundHashOps(Fields.PAY_LOG_REDIS).put(userName, payLog);
 //       将redis中原来的购物车信息清除
         redisTemplate.boundHashOps(Fields.CARTLIST_REDIS).delete(userName);
+    }
+
+    @Override
+    public PageResult findByPage(String name) {
+        Page<Order> orders=new Page<>();
+        if (name!=null){
+            OrderQuery query=new OrderQuery();
+            OrderQuery.Criteria criteria = query.createCriteria();
+            criteria.andSellerIdEqualTo(name);
+             orders =(Page<Order>) orderDao.selectByExample(query);
+
+        }
+        return new PageResult(orders.getTotal(),orders.getResult());
     }
 
     //将订单信息存入payLog对象中
