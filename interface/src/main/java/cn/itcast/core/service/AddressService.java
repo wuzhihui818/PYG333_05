@@ -9,7 +9,9 @@ public interface AddressService {
 
     void addAddress(Address address);
 
-    void delAddress(Address address);
+    void delAddress(Long id);
 
     void updateAddress(Address address);
+
+    void del2(Long id);
 }

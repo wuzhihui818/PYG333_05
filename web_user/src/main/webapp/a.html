@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="plugins/angularjs/angular.min.js"></script>
+    <script type="text/javascript" src="js/base.js"></script>
+    <script>
+        /*var app=angular.module('pinyougou',[]);*/
+        app.controller('addressController',function($scope,$http){
+            $scope.findAll=function () {
+                $http.get('../address/findListByLoginUser.do').success(
+                        function(response){
+                                $scope.list=response;
+                        }
+                );
+            }
+        });
+    </script>
+</head>
+<body ng-app="pinyougou" ng-controller="addressController"  ng-init="findAll()">
+<table>
+    <thead>
+    <tr>
+        <th>姓名</th>
+        <th>性别</th>
+        <th>年龄</th>
+    </tr>
+    </thead>
+    <tbody >
+    <tr ng-repeat="address in addressList" >
+        <td>{{address.id}}</td>
+        <td>{{address.address}}</td>
+        <td>{{address.contact}}</td>
+    </tr>
+    </tbody>
+</table>
+
+
+
+</body>
+</html>

@@ -26,11 +26,9 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public void delAddress(Address address) {
-        Long id = address.getId();
-        if (id!=null){
-            addressDao.deleteByPrimaryKey(id);
-        }
+    public void delAddress(Long id) {
+        addressDao.deleteByPrimaryKey(id);
+
 
     }
 
@@ -42,5 +40,10 @@ public class AddressServiceImpl implements AddressService {
         addressDao.insertSelective(address);
 
 
+    }
+
+    @Override
+    public void del2(Long id) {
+        addressDao.deleteByPrimaryKey(id);
     }
 }

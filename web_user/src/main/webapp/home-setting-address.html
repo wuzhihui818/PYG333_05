@@ -10,9 +10,33 @@
 
     <link rel="stylesheet" type="text/css" href="css/webbase.css" />
     <link rel="stylesheet" type="text/css" href="css/pages-seckillOrder.css" />
+	<script src="plugins/angularjs/angular.min.js"></script>
+	<script type="text/javascript" src="js/base.js"></script>
+	<script>
+        /*var app=angular.module('pinyougou',[]);*/
+        app.controller('addressController',function($scope,$http){
+            $scope.findAll=function () {
+                $http.get('../address/findListByLoginUser.do').success(
+                    function(response){
+                        $scope.addressList=response;
+                    }
+                );
+            }
+            $scope.del=function (id) {
+                alert("ssss"+id)
+                $http.get('../address/delAddress.do?id='+id).success(
+                    function(response){
+                        alert(response.message);
+                        location.reload();  //实现页面重新加载
+                    }
+                );
+            }
+
+        });
+	</script>
 </head>
 
-<body>
+<body ng-app="pinyougou" ng-controller="addressController"  ng-init="findAll()">
     <!-- 头部栏位 -->
     <!--页面顶部-->
 <div id="nav-bottom">
@@ -205,17 +229,17 @@ $(function(){
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>刘田田</td>
-                                        <td>北京 北京市 海淀区 上地街道东北旺西路8号中关村软件园9号楼</td>
-                                        <td>1774***********4</td>
-                                        <td>
-                                            <a href="#">编辑</a>
-                                            <a href="#">删除</a>
-                                            默认地址
-                                        </td>
-                                    </tr>
-                                    <tr>
+                                    <tr ng-repeat="address in addressList">
+										<td>{{address.contact}}</td>
+										<td>{{address.address}}</td>
+										<td>{{address.mobile}}</td>
+										<td>
+											<a href="#" ng-click="edit(address.id) ">编辑</a>
+											<button ng-click="del(address.id)">删除</button>
+											<a href="#" ng-click="moren({{address.id}})">设为默认</a>
+										</td>
+									</tr>
+                                    <!--<tr>
                                         <td>沈沉</td>
                                         <td>北京 北京市 海淀区 上地街道东北旺西路8号中关村软件园9号楼</td>
                                         <td>1774***********4</td>
@@ -224,7 +248,7 @@ $(function(){
                                             <a href="#">删除</a>
                                             <a href="#">设为默认</a>
                                         </td>
-                                    </tr>
+                                    </tr>-->
                                     
                                 </tbody>
                             </table>                          
