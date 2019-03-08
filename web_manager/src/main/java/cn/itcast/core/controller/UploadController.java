@@ -36,7 +36,11 @@ public class UploadController {
         }
     }
 
-    public Result saveExcel(File file){
+    @RequestMapping("/saveExcel")
+    public Result saveExcel(MultipartFile file) throws Exception {
+        FastDFSClient fastDFS = new FastDFSClient("classpath:fastDFS/fdfs_client.conf");
+        String s = fastDFS.uploadFile(file.getBytes());
+        System.out.println(s);
         try {
             System.out.println("111111");
             return new Result(true,"success");

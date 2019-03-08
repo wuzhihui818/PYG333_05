@@ -130,4 +130,9 @@ public class DataController {
         }
     }
 
+    @RequestMapping("importData")
+    public void importData(){
+        System.out.println("11111111111");
+    }
+
 }
