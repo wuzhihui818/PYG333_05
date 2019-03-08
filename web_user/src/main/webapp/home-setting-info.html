@@ -8,6 +8,16 @@
     <title>设置-个人信息</title>
      <link rel="icon" href="/assets/img/favicon.ico">
 
+	<link rel="stylesheet" type="text/css" href="css/webbase.css" />
+	<link rel="stylesheet" type="text/css" href="css/pages-register.css" />
+	<!-- 引入angular的js -->
+	<script type="text/javascript" src="plugins/angularjs/angular.min.js"></script>
+	<!-- 引入分页相关的JS和CSS -->
+
+	<script type="text/javascript" src="js/base.js"></script>
+	<script type="text/javascript" src="js/service/userService.js"></script>
+	<script type="text/javascript" src="js/controller/userController.js"></script>
+
     <link rel="stylesheet" type="text/css" href="css/webbase.css" />
     <link rel="stylesheet" type="text/css" href="css/pages-seckillOrder.css" />
 </head>
@@ -148,7 +158,7 @@ $(function(){
 <script type="text/javascript" src="js/plugins/upload/uploadPreview.js"></script>
 <script type="text/javascript" src="js/pages/main.js"></script>
 <script>
-            $(function() {               
+            $(function() {
                 $.ms_DatePicker({
                     YearSelector: "#select_year2",
                     MonthSelector: "#select_month2",
@@ -266,7 +276,7 @@ $(function(){
                                     <div class="control-group">
                                         <label for="sanwei" class="control-label"></label>
                                         <div class="controls">
-                                            <button type="submit" class="sui-btn btn-primary">立即注册</button>
+                                            <button type="submit"  ng-submit="regis()"  class="sui-btn btn-primary">立即注册</button>
                                         </div>
                                     </div>
                                 </form>
