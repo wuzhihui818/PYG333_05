@@ -18,6 +18,7 @@ import javax.jms.MapMessage;
 import javax.jms.Message;
 import javax.jms.Session;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -90,6 +91,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public void add(User user) {
         userDao.insertSelective(user);
+    }
+
+    @Override
+    public List<User> findAlluser() {
+        List<User> users = userDao.selectByExample(null);
+        return users;
     }
 
     public static void main(String[] args) {

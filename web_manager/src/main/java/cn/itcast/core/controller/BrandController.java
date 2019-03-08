@@ -17,7 +17,7 @@ import java.util.Map;
  * 品牌管理
  */
 @RestController
-@RequestMapping("/brands")
+@RequestMapping("/brand")
 public class BrandController {
 
     @Reference

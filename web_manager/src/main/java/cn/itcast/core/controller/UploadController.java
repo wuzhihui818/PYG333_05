@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+
 @RestController
 @RequestMapping("/upload")
 public class UploadController {
@@ -31,6 +33,16 @@ public class UploadController {
         } catch (Exception e) {
             e.printStackTrace();
             return new Result(false, "上传失败!");
+        }
+    }
+
+    public Result saveExcel(File file){
+        try {
+            System.out.println("111111");
+            return new Result(true,"success");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false,"failed");
         }
     }
 }

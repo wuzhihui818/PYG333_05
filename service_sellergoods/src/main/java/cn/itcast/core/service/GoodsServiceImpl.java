@@ -217,6 +217,11 @@ public class GoodsServiceImpl implements GoodsService {
         }
     }
 
+    @Override
+    public List<Goods> findAllGoods() {
+        return goodsDao.selectByExample(null);
+    }
+
     /**
      * 初始化库存对象的属性值
      * @param goodsEntity 页面传入的商品, 商品详情和库存集合对象

@@ -14,5 +14,10 @@ app.service("uploadService",function($http){
 			transformRequest: angular.identity//使用angularjs序列化上传文件
 		});
 	}
-	
+
+    //增加
+    this.saveExcel=function(entity){
+        return  $http.post('../upload/saveExcel.do',entity );
+    }
+
 });
