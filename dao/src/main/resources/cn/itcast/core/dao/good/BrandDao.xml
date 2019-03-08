@@ -198,7 +198,6 @@
       status = #{status,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
-
   <select id="selectOptionList" resultType="java.util.Map">
     select id, name text from tb_brand
   </select>
