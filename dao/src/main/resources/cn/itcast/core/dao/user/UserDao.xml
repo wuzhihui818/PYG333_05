@@ -482,4 +482,15 @@
       last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+<!--
+  <insert id="insert" parameterType="cn.itcast.core.pojo.user.User" >
+    INSERT INTO tb_user
+    (id,username,PASSWORD,phone,email,created,
+    updated,source_type,nick_name,NAME,STATUS,head_pic,qq,account_balance,is_mobile_check,is_email_check,sex,
+    user_level,points,experience_value,birthday,last_login_time)VALUES(null,#{username},null,null
+    ,null,null,null,null,null,null,#{STATUS},null,null,null,null,null,null,null,null,null,null,null);
+
+  </insert>-->
+
+
 </mapper>
