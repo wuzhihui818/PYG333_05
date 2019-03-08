@@ -23,15 +23,24 @@ public class AddressControllor {
     @RequestMapping("findListByLoginUser")
     public List<Address> findListByLoginUser(){
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-       List<Address> addressList = addressService.findAddressListByLoginUser(userName);
-           return addressList;
+        List<Address> addressList = addressService.findAddressListByLoginUser(userName);
+        return addressList;
     }
+
+    @RequestMapping("findOne")
+    public Address findOne(Long id){
+        return addressService.findOne(id);
+    }
+
+
 
     /**
      * 当前用户增加一个地址
      */
     @RequestMapping("addAddress")
     public Result addAddress(@RequestBody Address address){
+
+        System.out.println(address);
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         address.setUserId(userName);
         try {
@@ -49,13 +58,13 @@ public class AddressControllor {
      */
     @RequestMapping("delAddress")
     public Result delAddress(Long id){
-        System.out.println(id);
+//        System.out.println(id);
         try {
-            addressService.del2(id);
-            return new Result(true,"成功");
+            addressService.delAddress(id);
+            return new Result(true,"删除成功");
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(false,"失败");
+            return new Result(false,"删除失败");
         }
 
     }
@@ -66,13 +75,15 @@ public class AddressControllor {
      */
     @RequestMapping("updateAddress")
     public Result updateAddress(@RequestBody Address address){
-        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-        if (userName==address.getUserId()){
+//        System.out.println(address);
+        try {
             addressService.updateAddress(address);
             return new Result(true,"修改成功");
-        }else {
-            return new Result(false,"修改失败");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(true,"修改失败");
         }
+
 
     }
 

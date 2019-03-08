@@ -22,14 +22,44 @@
                     }
                 );
             }
+
+            $scope.findOne=function (id) {
+                alert("进入findOne")
+                $http.get('../address/findOne.do?id='+id).success(
+                    function(response){
+                        $scope.entity=response;
+                    }
+                );
+            }
+
+            //删除地址
             $scope.del=function (id) {
-                alert("ssss"+id)
+                alert("您确认要删除该地址吗?")
                 $http.get('../address/delAddress.do?id='+id).success(
                     function(response){
                         alert(response.message);
                         location.reload();  //实现页面重新加载
                     }
                 );
+            }
+
+            $scope.save=function () {
+                alert('进入save')
+				if ($scope.entity.id==null) {
+                    $http.post('../address/addAddress.do?', $scope.entity).success(
+                        function (response) {
+                            alert(response.message);
+                            location.reload();  //实现页面重新加载
+                        }
+                    );
+                }else{
+                    $http.post('../address/updateAddress.do?', $scope.entity).success(
+                        function (response) {
+                            alert(response.message);
+                            location.reload();  //实现页面重新加载
+                        }
+                    );
+				}
             }
 
         });
@@ -215,7 +245,7 @@ $(function(){
                     <div class="body userAddress">
                         <div class="address-title">
                             <span class="title">地址管理</span>
-                            <a data-toggle="modal" data-target=".edit" data-keyboard="false"   class="sui-btn  btn-info add-new">添加新地址</a>
+                            <a data-toggle="modal" data-target=".edit" data-keyboard="false" class="sui-btn  btn-info add-new" ng-click="entity={}">添加新地址</a>
                             <span class="clearfix"></span>
                         </div>
                         <div class="address-detail">
@@ -234,9 +264,10 @@ $(function(){
 										<td>{{address.address}}</td>
 										<td>{{address.mobile}}</td>
 										<td>
-											<a href="#" ng-click="edit(address.id) ">编辑</a>
-											<button ng-click="del(address.id)">删除</button>
-											<a href="#" ng-click="moren({{address.id}})">设为默认</a>
+											<a href="#" ng-click="findOne(address.id)" data-toggle="modal" data-target=".edit" >编辑</a>
+											<!--<button ng-click="del(address.id)">删除</button>-->
+											<a href="#" ng-click="del(address.id)">删除</a>
+											<a href="#" ng-click="moren(address.id)">设为默认</a>
 										</td>
 									</tr>
                                     <!--<tr>
@@ -266,10 +297,10 @@ $(function(){
                                             <div class="control-group">
                                             <label class="control-label">收货人：</label>
                                             <div class="controls">
-                                                <input type="text" class="input-medium">
+                                                <input type="text" class="input-medium" ng-model="entity.contact">
                                             </div>
                                         </div>
-                                        <div class="control-group">
+                                        <!--<div class="control-group">
                                             <label class="control-label">所在地区：</label>
                                             <div class="controls">
                                                 <div data-toggle="distpicker">
@@ -284,17 +315,17 @@ $(function(){
                                                 </div>
                                             </div>
                                             </div>									 
-                                        </div>
+                                        </div>-->
                                         <div class="control-group">
                                             <label class="control-label">详细地址：</label>
                                             <div class="controls">
-                                                <input type="text" class="input-large">
+                                                <input type="text" class="input-large" ng-model="entity.address">
                                             </div>
                                         </div>
                                         <div class="control-group">
                                             <label class="control-label">联系电话：</label>
                                             <div class="controls">
-                                                <input type="text" class="input-medium">
+                                                <input type="text" class="input-medium" ng-model="entity.mobile" >
                                             </div>
                                         </div>
                                         <div class="control-group">
@@ -306,7 +337,7 @@ $(function(){
                                         <div class="control-group">
                                             <label class="control-label">地址别名：</label>
                                             <div class="controls">
-                                                <input type="text" class="input-medium">
+                                                <input type="text" class="input-medium" ng-model="entity.alias">
                                             </div>
                                             <div class="othername">
                                                 建议填写常用地址：<a href="#" class="sui-btn btn-default">家里</a>　<a href="#" class="sui-btn btn-default">父母家</a>　<a href="#" class="sui-btn btn-default">公司</a>
@@ -318,7 +349,7 @@ $(function(){
                                         
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" data-ok="modal" class="sui-btn btn-primary btn-large">确定</button>
+                                        <button type="button" data-ok="modal" class="sui-btn btn-primary btn-large" ng-click="save()">确定</button>
                                         <button type="button" data-dismiss="modal" class="sui-btn btn-default btn-large">取消</button>
                                     </div>
                                 </div>

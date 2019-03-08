@@ -35,15 +35,14 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public void updateAddress(Address address) {
         Long id = address.getId();
-        addressDao.deleteByPrimaryKey(id);
-
-        addressDao.insertSelective(address);
+       addressDao.updateByPrimaryKey(address);
 
 
     }
 
     @Override
-    public void del2(Long id) {
-        addressDao.deleteByPrimaryKey(id);
+    public Address findOne(Long id) {
+        return addressDao.selectByPrimaryKey(id);
     }
+
 }
