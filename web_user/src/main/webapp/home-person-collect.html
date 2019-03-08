@@ -7,7 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
     <title>我的收藏</title>
      <link rel="icon" href="/assets/img/favicon.ico">
-
+	<link rel="stylesheet" type="text/css" href="css/pages-list.css" />
+	<link rel="stylesheet" type="text/css" href="css/widget-cartPanelView.css" />
     <link rel="stylesheet" type="text/css" href="css/webbase.css" />
     <link rel="stylesheet" type="text/css" href="css/pages-seckillOrder.css" />
 	<script type="text/javascript" src="plugins/angularjs/angular.min.js"> </script>
@@ -193,7 +194,7 @@ $(function(){
                             <h4>收藏的商品</h4>
                             <div class="goods-list">
                                 <ul class="yui3-g"  id="goods-list">
-                                    <!--<li class="yui3-u-1-4" ng-repeat="item in resultMap.rows">-->
+                                    <li class="yui3-u-1-4" ng-repeat="item in itemList">
                                         <div class="list-wrap">
                                             <div class="p-img">
 												<a href="#" ng-click="openDetailPage(item.goodsId)"><img src="{{item.image}}" /></a>

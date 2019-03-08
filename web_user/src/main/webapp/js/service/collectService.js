@@ -2,7 +2,7 @@
 app.service('collectService',function($http){
 	//购物车列表
 	this.findCollectList=function(){
-		return $http.get('http://localhost:8080/collect/findCollectList.do');
+		return $http.get('collect/findCollectList.do');
 	}
 
 	// //添加商品到购物车

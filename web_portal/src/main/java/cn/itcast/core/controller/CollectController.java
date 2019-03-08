@@ -4,7 +4,6 @@ import cn.itcast.core.pojo.entity.Result;
 import cn.itcast.core.pojo.item.Item;
 import cn.itcast.core.service.CollectService;
 import com.alibaba.dubbo.config.annotation.Reference;
-import org.springframework.http.HttpRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,18 +23,25 @@ public class CollectController {
         if ("anonymousUser".equals(name)){
             return new Result(false,"您还未登录,无法加入收藏");
         }else {
+//            根据用户名查询已经收藏的itemId集合,判断是否已经收藏此商品,已经收藏提示已经收藏,未收藏则进行收藏
+            List<Item> itemList = collectService.findItemList(name);
+            for (Item item : itemList) {
+                if (item.getId().equals(itemId)){
+                    return new Result(false,"请不要重复收藏");
+                }
+            }
             collectService.addGoodsToCollectList(itemId,name);
             return new Result(true,"收藏成功");
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:8083", allowCredentials = "true")
-    @RequestMapping("findCollectList")
-    public List<Item> findCollectList(){
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        String username = user.getUsername();
-        return collectService.findItemList(username);
-    }
+//    @CrossOrigin(origins = "http://localhost:8083", allowCredentials = "true")
+//    @RequestMapping("findCollectList")
+//    public List<Item> findCollectList(){
+//        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+////        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+////        String username = user.getUsername();
+//        return collectService.findItemList(username);
+//    }
 
 }

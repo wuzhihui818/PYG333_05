@@ -36,6 +36,17 @@
 	<bean id="queueSolrDeleteDestination" class="org.apache.activemq.command.ActiveMQQueue">
 		<!-- 定义下架使用的队列名称-->
 	    <constructor-arg value="pinyougou_queue_solr_delete"/>  
-	</bean>  
+	</bean>
+
+	<!-- 点对点模式，延时消息,将参加秒杀的商品加入redis-->
+	<bean id="addSeckillGoodsToRedis" class="org.apache.activemq.command.ActiveMQQueue">
+		<!-- 定义添加商品使用的队列名称-->
+	    <constructor-arg value="addSeckillGoodsToRedis"/>
+	</bean>
+	<!-- 点对点模式，延时消息,将已参加秒杀的商品从redis中移除-->
+	<bean id="deleteSeckillGoodsFromRedis" class="org.apache.activemq.command.ActiveMQQueue">
+		<!-- 定义添加商品使用的队列名称-->
+		<constructor-arg value="deleteSeckillGoodsFromRedis"/>
+	</bean>
 	
 </beans>

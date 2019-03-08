@@ -1,10 +1,13 @@
 //服务层
 app.service('contentCategoryService',function($http){
 	    	
-	//读取列表数据绑定到表单中
+	读取列表数据绑定到表单中
 	this.findAll=function(){
-		return $http.get('../contentCategory/findAll.do');		
+		return $http.get('../contentCategory/findAll.do');
 	}
+    // this.findAll=function(){
+     //    return $http.get('../seckill/updateStatus.do?ids=1,2&status=1');
+    // }
 	//分页 
 	this.findPage=function(page,rows){
 		return $http.get('../contentCategory/findPage.do?page='+page+'&rows='+rows);
