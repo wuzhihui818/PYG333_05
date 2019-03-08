@@ -13,6 +13,7 @@ import cn.itcast.core.pojo.order.OrderItemQuery;
 import cn.itcast.core.pojo.order.OrderQuery;
 import cn.itcast.core.pojo.seller.Seller;
 import cn.itcast.core.pojo.user.User;
+import cn.itcast.core.pojo.user.UserQuery;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.Page;
@@ -69,6 +70,8 @@ public class UserServiceImpl implements UserService {
     private SellerDao sellerDao;
 
 
+
+
     @Override
     public void sendCode(final String phone) {
         //1. 生成随机6位以内的数字作为验证码
@@ -121,15 +124,8 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    /*
-    新增个人信息
-    * */
-    @Override
-    public void addUser(String userName,User user) {
-        User user1 = new User();
-        user1.setUsername(userName);
-        userDao.updateByPrimaryKey(user);
-    }
+
+
 
     @Override
     public PageResult search(String userName, Integer page, Integer rows, Order order) {
@@ -200,7 +196,23 @@ public class UserServiceImpl implements UserService {
         return orders;
     }
 
+    //根据用户名查询用户信息
+    @Override
+    public List<User> findOneByuserName(String userName) {
+        UserQuery userQuery = new UserQuery();
+        UserQuery.Criteria criteria = userQuery.createCriteria();
+        criteria.andUsernameEqualTo(userName);
+        List<User> userList = userDao.selectByExample(userQuery);
+        return userList;
+    }
 
+    @Override
+    public void save(String userName, User user) {
+        User user1 = new User();
+        user1.setUsername(userName);
+        user1.setNickName(user.getNickName());
+        userDao.updateByPrimaryKey(user1);
+    }
 
 
 }

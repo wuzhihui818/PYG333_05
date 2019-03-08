@@ -24,6 +24,7 @@ public class UserController {
 
     /**
      * 生成随机六位以内数字作为验证码, 发送到指定手机号上
+     *
      * @param phone 手机号
      * @return
      */
@@ -37,17 +38,18 @@ public class UserController {
                 return new Result(false, "手机号不正确!");
             }
             userService.sendCode(phone);
-            return new Result(true , "短信发送成功!");
+            return new Result(true, "短信发送成功!");
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(false , "短信发送失败!");
+            return new Result(false, "短信发送失败!");
         }
     }
 
     /**
      * 完成注册, 保存用户
-     * @param user      用户对象
-     * @param smscode   页面填写的验证码
+     *
+     * @param user    用户对象
+     * @param smscode 页面填写的验证码
      */
     @RequestMapping("/add")
     public Result add(@RequestBody User user, String smscode) {
@@ -75,7 +77,7 @@ public class UserController {
 
     //分页查询所有订单
     @RequestMapping("/search")
-    public PageResult search(Integer page, Integer rows , @RequestBody Order order){
+    public PageResult search(Integer page, Integer rows, @RequestBody Order order) {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         PageResult search = userService.search(userName, page, rows, order);
         return search;
@@ -83,7 +85,7 @@ public class UserController {
 
 
     @RequestMapping("/findAll")
-    public List<Order> findAll(){
+    public List<Order> findAll() {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
 
         List<Order> all = userService.findAll(userName);
@@ -91,17 +93,29 @@ public class UserController {
 
     }
 
+     /*
+        根据用户名进行回显
+        * */
+    @RequestMapping("/findOneByuserName")
+    public List<User> findOneByuserName() {
+        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        List<User> userList = userService.findOneByuserName(userName);
+        return userList;
+    }
 
-
-    @RequestMapping("/addUser")
-    public Result addUser(@RequestBody User user){
+  /*  *//*
+    根据用户名进行修改
+    * *//*
+    @RequestMapping("/save")
+    public Result save(@RequestBody User user){
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         try {
-            userService.addUser(userName,user);
-            return new Result(true, "注册成功!");
+            userService.save(userName,user);
+            return new Result(true,"修改成功");
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(false, "注册失败!");
+            return new Result(false,"修改失败");
         }
-    }
+
+    }*/
 }

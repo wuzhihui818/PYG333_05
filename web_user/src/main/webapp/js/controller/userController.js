@@ -1,6 +1,34 @@
  //控制层 
-app.controller('userController' ,function($scope,$controller   ,userService){	
-	
+app.controller('userController' ,function($scope,$controller,loginService,userService){
+
+    // 显示左上角的名字
+    $controller('baseController',{$scope:$scope});
+
+    $scope.showName=function(){
+        loginService.showName().success(
+            function(response){
+                $scope.loginName=response.loginName;
+            }
+        );
+    }
+
+    //findOneByuserName()
+
+    //显示当前用户名
+    //回显
+    $scope.findOneByuserName = function () {
+
+        userService.findOneByuserName().success(
+            function (response) {
+                $scope.userList = response;
+            }
+        );
+    }
+
+
+    //updateUser
+
+
 
 
 
@@ -39,12 +67,9 @@ app.controller('userController' ,function($scope,$controller   ,userService){
 
 
 
-
-
-
         /*//个人中心的用户注册*/
         $scope.regis=function(){
-            alert(111);
+
             //比较两次输入的密码是否一致
             if($scope.password!=$scope.entity.password){
                 alert("两次输入密码不一致，请重新输入");
@@ -63,6 +88,8 @@ app.controller('userController' ,function($scope,$controller   ,userService){
         }
 
     }
+
+
 
 
 

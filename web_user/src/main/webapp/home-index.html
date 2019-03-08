@@ -17,6 +17,7 @@
 
 	<script type="text/javascript" src="plugins/angularjs/angular.min.js"></script>
 	<script type="text/javascript" src="js/base.js"></script>
+
 	<script type="text/javascript" src="js/service/loginService.js"></script>
 	<script type="text/javascript" src="js/service/userService.js"></script>
 	<script type="text/javascript" src="js/controller/indexController.js"></script>
@@ -195,7 +196,7 @@
 					</dl>
 					<dl>
 						<dt><i>·</i> 设置</dt>
-						<dd><a href="home-setting-info.html">个人信息</a></dd>
+						<dd><a href="home-setting-info.html"  ng-click="entity={}">个人信息</a></dd>
 						<dd><a href="home-setting-address.html"  >地址管理</a></dd>
 						<dd><a href="home-setting-safe.html" >安全管理</a></dd>
 					</dl>
@@ -236,7 +237,7 @@
 
 							<div class="choose-title"ng-repeat-start="entity in list">
 								<label data-toggle="checkbox" class="checkbox-pretty " >
-									<input type="checkbox" checked="checked"><span>{{entity.updateTime}}　订单编号：{{entity.orderId}}  店铺：娃哈哈 <a>和我联系</a></span>
+									<input type="checkbox" checked="checked"><span>{{entity.updateTime}}　订单编号：{{entity.orderId}}  店铺：{{entity.setSellerNickName}} <a>和我联系</a></span>
 								</label>
 								<a class="sui-btn btn-info share-btn">分享</a>
 							</div>
@@ -247,13 +248,13 @@
 										<div class="typographic"><img src={{orderItem.picPath}} style="height: 100px; width: 100px;"/>
 											<a href="#" class="block-text">{{orderItem.title}}</a>
 											<!--规格-->
-											<!--<span class="guige">{{orderItem.specMap.spec}}</span>-->
+											<span class="guige">{{orderItem.specMap.spec}}</span>
 										</div>
 									</td>
 									<td width="5%" class="center">
 										<ul class="unstyled">
 											<!--降价前价格-->
-											<!--<li class="o-price">￥{{orderItem.costPirce}}</li>-->
+											<li class="o-price">￥{{orderItem.costPirce}}</li>
 											<li>￥{{orderItem.price}}</li>
 										</ul>
 									</td>
@@ -266,7 +267,7 @@
 									<td width="10%" class="center" >
 										<ul class="unstyled">
 											<li>￥{{entity.payment}}</li>
-											<li>（含运费：0)</li>   <!--￥{{entity.postFee}}）-->
+											<li>（含运费：￥{{entity.postFee}})</li>   <!--￥{{entity.postFee}}）-->
 										</ul>
 									</td>
 									<td width="10%" class="center">

@@ -16,14 +16,14 @@ public interface UserService {
 
     public  void  add(User user);
 
-    public void addUser(String userName,User user);
+
 
     public PageResult search(String userName,Integer page, Integer rows ,  Order order);
     public List<Order> findAll(String userName);
 
+    //根据用户名查找用户信息
+    public List<User> findOneByuserName(String userName);
 
-
-
-
-
+        //根据用户名和页面传递来的user对象,update
+    public  void save(String userName, User user);
 }
