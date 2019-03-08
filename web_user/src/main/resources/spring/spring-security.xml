@@ -73,9 +73,23 @@
     <!--配置需要引入或者是注入进来的接口-->
     <dubbo:reference id="userService"  interface="cn.itcast.core.service.UserService" >
     </dubbo:reference>
+    
+    <!--==========-->
+    <!--<dubbo:application name="pinyougou-user-web" />-->
+    <!--<dubbo:registry address="zookeeper://192.168.200.128:2181"/>-->
+    <!--<dubbo:reference interface="javax.servlet.http.HttpServletRequest" id="request">-->
+    <!--</dubbo:reference>-->
+
+    <!--<dubbo:application name="pinyougou-user-web" />-->
+    <!--<dubbo:registry address="zookeeper://192.168.200.128:2181"/>-->
+    <!--<dubbo:reference interface="javax.servlet.http.HttpServletResponse" id="response">-->
+    <!--</dubbo:reference>-->
+
     <!-- 认证类 -->
     <beans:bean id="userDetailsService" class="cn.itcast.core.service.UserDetailServiceImpl">
         <beans:property name="userService" ref="userService"></beans:property>
+        <!--<beans:property name="request" ref="request"/>-->
+        <beans:property name="response" ref="response"/>
     </beans:bean>
 
     <!-- 认证过滤器 结束 -->

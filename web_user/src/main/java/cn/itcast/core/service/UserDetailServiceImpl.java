@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +26,12 @@ import java.util.List;
 public class UserDetailServiceImpl implements UserDetailsService {
 
     private UserService userService;
-//    private HttpServletResponse response;
+    private HttpServletResponse response;
+
+    public void setResponse(HttpServletResponse response) {
+        this.response = response;
+    }
+
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
