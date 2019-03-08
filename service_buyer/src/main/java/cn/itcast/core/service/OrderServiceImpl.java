@@ -73,19 +73,6 @@ public class OrderServiceImpl implements OrderService {
         redisTemplate.boundHashOps(Fields.CARTLIST_REDIS).delete(userName);
     }
 
-    @Override
-    public PageResult findByPage(Integer page,Integer rows,Order order) {
-        PageHelper.startPage(page,rows);
-
-
-            OrderQuery query=new OrderQuery();
-            OrderQuery.Criteria criteria = query.createCriteria();
-            criteria.andSellerIdEqualTo(order.getSellerId());
-            Page<Order> orders =(Page<Order>) orderDao.selectByExample(query);
-
-
-        return new PageResult(orders.getTotal(),orders.getResult());
-    }
 
     //将订单信息存入payLog对象中
     private PayLog creatPayLog(List<Order> orderList, String userName) {
