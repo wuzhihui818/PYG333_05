@@ -1,4 +1,4 @@
-package cn.itcast.core.util;
+package cn.itcast.core.common;
 
 public class Common {
 

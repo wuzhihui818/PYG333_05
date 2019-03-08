@@ -1,10 +1,10 @@
 package cn.itcast.core.util;
 
+import cn.itcast.core.common.Common;
 import cn.itcast.core.pojo.ad.ContentCategory;
 import cn.itcast.core.pojo.good.Brand;
 import cn.itcast.core.pojo.specification.Specification;
 import cn.itcast.core.pojo.template.TypeTemplate;
-import com.alibaba.fastjson.JSON;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class ReadExcel {
         private InputStream is;
