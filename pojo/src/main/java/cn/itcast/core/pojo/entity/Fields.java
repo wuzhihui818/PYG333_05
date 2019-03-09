@@ -10,6 +10,7 @@ public class Fields {
     public static final String CARTLIST_REDIS="cartList_redis";
     public static final String PAY_LOG_REDIS="pay_log_redis";
     public static final String SECKILLGOODS_REDIS="seckillgoods_redis";
+    public static final String SECKILLGOODSORDER_REDIS="seckillgoodsorder_redis";
 
 
 

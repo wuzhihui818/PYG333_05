@@ -56,7 +56,8 @@ app.controller('seckillGoodsController' ,function($scope,$location,seckillGoodsS
 			function(response){
 				if(response.success){//如果下单成功
 					alert("抢购成功，请在5分钟之内完成支付");
-					location.href="pay.html";//跳转到支付页面				
+					// location.href="pay.html";//跳转到支付页面
+					location.href="../../getSeckillOrderInfo.html";//跳转到支付页面
 				}else{
 					alert(response.message);
 				}				

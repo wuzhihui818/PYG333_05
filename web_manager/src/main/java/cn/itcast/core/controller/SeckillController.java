@@ -14,6 +14,7 @@ public class SeckillController {
     /**
      * s审核秒杀申请,并修改状态
      * @return
+     * @author wuzhihui
      */
     @RequestMapping("updateStatus")
     public Result updateStatus(Long[] ids,String status){

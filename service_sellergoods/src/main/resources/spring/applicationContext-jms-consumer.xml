@@ -57,4 +57,20 @@
 		<property name="messageListener" ref="deleteSeckillGoodsFromRedisListener" />
 	</bean>
 	<bean id="deleteSeckillGoodsFromRedisListener" class="cn.itcast.core.listener.DeleteSeckillGoodsFromRedisListener"></bean>
+
+
+
+	<!-- 点对点模式，将秒杀到的订单从redis中移除-->
+	<bean id="deleteSeckillOrderFromRedis" class="org.apache.activemq.command.ActiveMQQueue">
+		<constructor-arg value="deleteSeckillOrderFromRedis"/>
+	</bean>
+	<!-- 点对点模式, 消息监听容器  到时将秒杀到的订单从redis中移除-->
+	<bean class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+		<property name="connectionFactory" ref="connectionFactory" />
+		<property name="destination" ref="deleteSeckillOrderFromRedis" />
+		<property name="messageListener" ref="deleteSeckillOrderFromRedisListener" />
+	</bean>
+	<bean id="deleteSeckillOrderFromRedisListener" class="cn.itcast.core.listener.DeleteSeckillOrderFromRedisListener"></bean>
+
+
 </beans>

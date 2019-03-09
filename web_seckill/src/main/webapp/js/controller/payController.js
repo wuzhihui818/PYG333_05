@@ -6,7 +6,7 @@ app.controller('payController' ,function($scope ,$location,payService){
 			function(response){
 				
 				//显示订单号和金额
-				$scope.money= (response.total_fee/100).toFixed(2);
+				$scope.money= (response.total_fee/1).toFixed(2);
 				$scope.out_trade_no=response.out_trade_no;
 				
 				//生成二维码

@@ -48,5 +48,10 @@
 		<!-- 定义添加商品使用的队列名称-->
 		<constructor-arg value="deleteSeckillGoodsFromRedis"/>
 	</bean>
+	<!-- 点对点模式，延时消息,将过时的秒杀订单从redis中移除-->
+	<bean id="deleteSeckillOrderFromRedis" class="org.apache.activemq.command.ActiveMQQueue">
+		<!-- 定义添加商品使用的队列名称-->
+		<constructor-arg value="deleteSeckillOrderFromRedis"/>
+	</bean>
 	
 </beans>
