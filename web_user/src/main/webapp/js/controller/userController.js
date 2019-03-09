@@ -1,5 +1,5 @@
  //控制层 
-app.controller('userController' ,function($scope,$controller,loginService,userService){
+app.controller('userController' ,function($scope,$controller,loginService,uploadService,userService){
 
     // 显示左上角的名字
     $controller('baseController',{$scope:$scope});
@@ -11,6 +11,23 @@ app.controller('userController' ,function($scope,$controller,loginService,userSe
             }
         );
     }
+
+
+    // $scope.entity={goods:{},goodsDesc:{},itemList:[]}
+   /*图片上传*/
+    $scope.uploadFile = function(){
+        // 调用uploadService的方法完成文件的上传
+        uploadService.uploadFile().success(function(response){
+            if(response.success){
+                // 获得url
+                $scope.image_entity.url =  response.message;
+            }else{
+                alert(response.message);
+            }
+        });
+    }
+
+
 
     //findOneByuserName()
 
