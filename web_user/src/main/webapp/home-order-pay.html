@@ -10,9 +10,24 @@
 
     <link rel="stylesheet" type="text/css" href="css/webbase.css" />
     <link rel="stylesheet" type="text/css" href="css/pages-seckillOrder.css" />
+
+	<script type="text/javascript" src="plugins/angularjs/angular.min.js"></script>
+	<script type="text/javascript" src="js/base_pagination.js"></script>
+	<script type="text/javascript" src="js/service/loginService.js"></script>
+	<script type="text/javascript" src="js/controller/indexController.js"></script>
+
+
+	<!-- 引入分页样式以及分页js -->
+	<link rel="stylesheet" type="text/css" hre="plugins/angularjs/pagination.css">
+	<script type="text/javascript" src="plugins/angularjs/pagination.js"></script>
+	<!-- 引入模块以及控制器-->
+	<script type="text/javascript" src="js/controller/baseController.js"></script>
+	<script type="text/javascript" src="js/service/userService.js"></script>
+
+
 </head>
 
-<body>
+<body ng-app="pinyougou" ng-controller="indexController" ng-init="searchEntity={status:'1'};showName();reloadList()">
     <!-- 头部栏位 -->
     <!--页面顶部-->
 <div id="nav-bottom">
@@ -153,7 +168,7 @@ $(function(){
                     <div class="person-info">
                         <div class="person-photo"><img src="img/_/photo.png" alt=""></div>
                         <div class="person-account">
-                            <span class="name">Michelle</span>
+                            <span class="name">{{loginName}}</span>
                             <span class="safe">账户安全</span>
                         </div>
                         <div class="clearfix"></div>
@@ -202,96 +217,84 @@ $(function(){
                             </table>
                         </div>
 
-                        <div class="order-detail">
-                            <div class="orders">
-                                <div class="choose-order">
-                                    <label data-toggle="checkbox" class="checkbox-pretty checked">
-                                        <input type="checkbox" checked="checked"><span>全选</span>
-                                    </label>
-                                    <a href="" class="sui-btn btn-info btn-bordered hepay-btn">合并付款</a>
-                                    <div class="sui-pagination pagination-large top-pages">
-                                        <ul>
-                                            <li class="prev disabled"><a href="#">上一页</a></li>
+						<div class="order-detail">
+							<div class="orders">
 
-                                            <li class="next"><a href="#">下一页</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
+								<div ng-repeat="entry in list">
+									<div class="choose-title">
+										<label data-toggle="checkbox" class="checkbox-pretty ">
+											<input type="checkbox" checked="checked"><span>{{entry.updateTime}}　订单编号：{{entry.orderId}}  店铺：{{entry.nick_name}} <a>和我联系</a></span>
+										</label>
+										<a class="sui-btn btn-info share-btn">分享</a>
+									</div>
+									<table class="sui-table table-bordered order-datatable">
 
-                                <div class="choose-title">
-                                    <label data-toggle="checkbox" class="checkbox-pretty ">
-                                           <input type="checkbox" checked="checked"><span>2017-02-11 11:59　订单编号：7867473872181848  店铺：哇哈哈 <a>和我联系</a></span>
-                                     </label>
-                                    <a class="sui-btn btn-info share-btn">分享</a>
-                                </div>
-                                <table class="sui-table table-bordered order-datatable">
-
-                                    <tbody>
-                                        <tr>
-                                            <td width="35%">
-                                                <div class="typographic"><img src="img/goods.png" />
-                                                    <a href="#" class="block-text">包邮 正品玛姬儿压缩面膜无纺布纸膜100粒 送泡瓶面膜刷喷瓶 新款</a>
-                                                    <span class="guige">规格：温泉喷雾150ml</span>
-                                                </div>
-                                            </td>
-                                            <td width="5%" class="center">
-                                                <ul class="unstyled">
-                                                    <li class="o-price">¥599.00</li>
-                                                    <li>¥299.00</li>
-                                                </ul>
-                                            </td>
-                                            <td width="5%" class="center">1</td>
-                                            <td width="8%" class="center"></td>
-                                            <td width="10%" class="center">
-                                                <ul class="unstyled">
-                                                    <li>¥299.00</li>
-                                                    <li>（含运费：￥0.00）</li>
-                                                </ul>
-                                            </td>
-                                            <td width="10%" class="center">
-                                                <ul class="unstyled">
-                                                    <li>等待买家付款</li>
-                                                    <li><a href="orderDetail.html" class="btn">订单详情 </a></li>
-                                                </ul>
+										<tbody>
+										<tr ng-repeat="orderItem in entry.orderItemList">
+											<td width="35%">
+												<div class="typographic"><img src="{{orderItem.picPath}}" height="40" width="40"/>
+													<a href="#" class="block-text">{{orderItem.title}}</a>
+													<span class="guige">{{orderItem.spec}}</span>
+												</div>
+											</td>
+											<td width="5%" class="center">
+												<ul class="unstyled">
+													<li class="o-price">￥{{orderItem.costPirce}}</li>
+													<li>￥{{orderItem.price}}</li>
+												</ul>
+											</td>
+											<td width="5%" class="center">{{orderItem.num}}</td>
+											<td width="8%" class="center"></td>
+											<td width="10%" class="center">
+												<ul class="unstyled">
+													<li>¥{{entry.payment}}</li>
+													<li>（含运费：￥{{entry.postFee==null ? 0.00 : entry.post_Fee}}）</li>
+												</ul>
+											</td>
+											<td width="10%" class="center">
+												<ul class="unstyled">
+													<li >等待买家付款</li>
+													<li><a href="orderDetail.html" class="btn">订单详情 </a></li>
+												</ul>
 
 
-                                            </td>
-                                            <td width="10%" class="center">
-                                                <ul class="unstyled">
-                                                    <li><a href="#" class="sui-btn btn-info">立即付款</a></li>
-                                                    <li><a href="#">取消订单</a></li>
-                                                </ul>
-                                            </td>
-                                        </tr>
-                                        </tr>
-                                    </tbody>
-                                </table>
+											</td>
+											<td width="10%" class="center">
+												<ul class="unstyled">
+													<li><a href="#"   class="sui-btn btn-info">立即付款</a></li>
 
-                            </div>
+													<li><a href="#">取消订单</a></li>
+												</ul>
+											</td>
+										</tr>
+										</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
 
-                            <div class="choose-order">
-                                <label data-toggle="checkbox" class="checkbox-pretty checked">
-                                        <input type="checkbox" checked="checked"><span>全选</span>
-                                    </label>
-                                <a href="" class="sui-btn btn-info btn-bordered hepay-btn">合并付款</a>
-                                <div class="sui-pagination pagination-large top-pages">
-                                    <ul>
-                                        <li class="prev disabled"><a href="#">«上一页</a></li>
-                                        <li class="active"><a href="#">1</a></li>
-                                        <li><a href="#">2</a></li>
-                                        <li><a href="#">3</a></li>
-                                        <li class="dotted"><span>...</span></li>
-                                        <li class="next"><a href="#">下一页»</a></li>
-                                    </ul>
-                                    <div><span>共10页&nbsp;</span><span>
+							<div class="choose-order">
+								<!--<label type="checkbox" class="icheckbox_square-blue" >
+									<input type="checkbox" checked="checked"><span>全选</span>
+								</label>
+								<a href="" ng-click="pay()" class="sui-btn btn-info btn-bordered hepay-btn">合并付款</a>-->
+								<div class="sui-pagination pagination-large top-pages">
+									<ul>
+										<li class="prev disabled"><a href="#">«上一页</a></li>
+										<li class="active"><a href="#">1</a></li>
+										<li class="dotted"><span>...</span></li>
+										<li class="next"><a href="#">下一页»</a></li>
+									</ul>
+									<div><span>共1页&nbsp;</span><span>
                                             到
-                                            <input type="text" class="page-num"><button class="page-confirm" onclick="alert(1)">确定</button>
+                                            <input type="text" class="page-num"><button class="page-confirm"
+																						onclick="alert(1)">确定</button>
                                             页</span></div>
-                                </div>
-                            </div>
+								</div>
+							</div>
 
-                            <div class="clearfix"></div>
-                        </div>
+							<div class="clearfix"></div>
+						</div>
 
                         <div class="like-title">
                             <div class="mt">

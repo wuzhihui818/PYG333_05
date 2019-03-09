@@ -295,41 +295,42 @@ $(function(){
                                     </div>
                                 </form>
                             </div>
+
+
 							<div id="two" class="tab-pane">
 
 								<div class="new-photo">
 									<p>当前头像：</p>
 									<div class="upload">
-										<img id="imgShow_WU_FILE_0" width="100" height="100" src="img/_/photo_icon.png" alt="">
-										<input type="file" id="up_img_WU_FILE_0" />
+
+										<td>
+											<table>
+												<tr>
+													<td>
+														<!--<img id="imgShow_WU_FILE_0" width="100" height="100" src="img/_/photo_icon.png" alt="">-->
+														<img id="imgShow_WU_FILE_0" width="100" height="100" src="{{image_entity.url}}" alt="">
+													</td>
+													<td>
+														<!--<input type="file" id="up_img_WU_FILE_0"/>-->
+														<input type="file" id="file"/>
+
+														<button class="btn btn-primary" type="button" ng-click="uploadFile()">
+															上传
+														</button>
+													</td>
+
+												</tr>
+											</table>
+										</td>
+
+
+
 									</div>
 
 								</div>
-
-
-								<!--<tr>
-									<td>商品图片</td>
-									<td>
-										<table>
-											<tr>
-												<td>
-													<input type="file" id="file"/>
-													<button class="btn btn-primary" type="button" ng-click="uploadFile()">
-														上传
-													</button>
-												</td>
-												<td>
-													<img  src="{{image_entity.url}}" width="200px" height="200px">
-												</td>
-											</tr>
-										</table>
-									</td>
-								</tr>-->
-
-
-
-
 							</div>
+
+
                         </div>
 
                     </div>
