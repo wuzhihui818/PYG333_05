@@ -2,6 +2,9 @@ package cn.itcast.core.controller;
 
 import cn.itcast.core.common.FastDFSClient;
 import cn.itcast.core.pojo.entity.Result;
+import cn.itcast.core.service.UploadServiceCYH;
+import cn.itcast.core.util.uploadUtil;
+import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +19,8 @@ public class UploadController {
     @Value("${FILE_SERVER_URL}")
     private String fileServer;
 
+    @Reference
+    private UploadServiceCYH uploadServiceCYH;
     /**
      * 文件上传
      * @param file
@@ -38,11 +43,16 @@ public class UploadController {
 
     @RequestMapping("/saveExcel")
     public Result saveExcel(MultipartFile file) throws Exception {
-        FastDFSClient fastDFS = new FastDFSClient("classpath:fastDFS/fdfs_client.conf");
-        String s = fastDFS.uploadFile(file.getBytes());
-        System.out.println(s);
+        //FastDFSClient fastDFS = new FastDFSClient("classpath:fastDFS/fdfs_client.conf");
+        String fileName = file.getOriginalFilename();
+        System.out.println(fileName);
+        uploadUtil.upLoadFile(file);
         try {
-            System.out.println("111111");
+            uploadServiceCYH.saveBrand();
+         /*   uploadServiceCYH.saveCate();
+            uploadServiceCYH.saveSpec();
+            uploadServiceCYH.saveTemp();*/
+
             return new Result(true,"success");
         } catch (Exception e) {
             e.printStackTrace();

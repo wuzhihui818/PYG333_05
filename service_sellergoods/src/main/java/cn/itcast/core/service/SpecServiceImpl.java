@@ -138,4 +138,21 @@ public class SpecServiceImpl implements SpecService {
         }
     }
 
+    @Override
+    public PageResult search(Integer page, Integer rows, Specification spec) {
+        //创建查询对象
+        SpecificationQuery query = new SpecificationQuery();
+        //创建条件对象
+        SpecificationQuery.Criteria criteria = query.createCriteria();
+        if (spec != null) {
+            if (spec.getSpecName() != null && !"".equals(spec.getSpecName())) {
+                criteria.andSpecNameLike("%"+spec.getSpecName()+"%");
+            }
+        }
+        criteria.andStatusEqualTo("0");
+        PageHelper.startPage(page, rows);
+        Page<Specification> specList = (Page<Specification>)specDao.selectByExample(query);
+        return new PageResult(specList.getTotal(), specList.getResult());
+    }
+
 }
