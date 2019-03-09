@@ -89,7 +89,7 @@
     <beans:bean id="userDetailsService" class="cn.itcast.core.service.UserDetailServiceImpl">
         <beans:property name="userService" ref="userService"></beans:property>
         <!--<beans:property name="request" ref="request"/>-->
-        <beans:property name="response" ref="response"/>
+        <!--<beans:property name="response" ref="response"/>-->
     </beans:bean>
 
     <!-- 认证过滤器 结束 -->

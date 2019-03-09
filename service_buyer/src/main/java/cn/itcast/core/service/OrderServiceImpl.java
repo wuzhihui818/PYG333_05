@@ -157,7 +157,7 @@ public class OrderServiceImpl implements OrderService {
 
 
         @Override
-        public Map<String, Double> findSaleData(String start, String end, String sellerId) {
+        public Map<String, Double> findSaleData(String start, String end, String sellerId){
             Map<String, Double> map = new HashMap();
             try {
                 //根据用户名，开始时间，结束时间查询订单
@@ -167,11 +167,12 @@ public class OrderServiceImpl implements OrderService {
                 OrderQuery query = new OrderQuery();
                 OrderQuery.Criteria criteria = query.createCriteria();
                 //将String 转换成Date
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 Date dateStart = dateFormat.parse(start);
                 Date dateEnd = dateFormat.parse(end);
                 //添加日期查询条件
                 criteria.andCreateTimeBetween(dateStart, dateEnd);
+
 
 //                criteria.andPaymentTimeBetween(dateStart, dateEnd);
 
@@ -184,7 +185,7 @@ public class OrderServiceImpl implements OrderService {
                     for (Order order : orderList) {
                         Date createTime = order.getCreateTime();
                         //Date换成String
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                         String dateStr = sdf.format(createTime);
                         //获取支付金额
                         BigDecimal payment = order.getPayment();
@@ -195,15 +196,16 @@ public class OrderServiceImpl implements OrderService {
                             map.put(dateStr,payment.doubleValue());
                         }
                     }
-                } else {
-                    return new HashMap();
+                }else {
+                    map.put("", 0.0);
+
                 }
 
             } catch (ParseException e) {
                 e.printStackTrace();
                 return new HashMap();
             }
-            System.out.println(map);
+
             return map;
         }
     }

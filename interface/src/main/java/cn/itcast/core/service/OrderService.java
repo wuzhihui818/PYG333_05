@@ -8,5 +8,5 @@ import java.util.Map;
 public interface OrderService {
     void add(Order order, String userName);
 
-    Map<String,Double> findSaleData(String start, String end, String sellerId);
+    Map<String,Double> findSaleData(String start, String end, String sellerId) ;
 }

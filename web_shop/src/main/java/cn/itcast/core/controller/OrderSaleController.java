@@ -16,10 +16,10 @@ public class OrderSaleController {
     private OrderService orderService;
 
     @RequestMapping("/getData")
-    public Map<String, List> guFindData(String start, String end,String sellerId)  {
+    public Map<String, List> guFindData(String start, String end) {
         Map<String, List> map = new HashMap<String, List>();
         //获取商家登录id
-//         sellerId = SecurityContextHolder.getContext().getAuthentication().getName();
+        String sellerId = SecurityContextHolder.getContext().getAuthentication().getName();
         //查询销售额信息
         if (sellerId != null) {
 
@@ -40,13 +40,14 @@ public class OrderSaleController {
                 //添加销售额
                 seriesSaleList.add(saleDataMap.get(key));
             }
-        map.put("xAxisList", xAxisList);
-        map.put("seriesSaleList",seriesSaleList);
+            map.put("xAxisList", xAxisList);
+            map.put("seriesSaleList", seriesSaleList);
 
-        return map;
+            return map;
         }
         return null;
     }
+
     //将map按照key进行排序
     public static Map<String, Double> sortMapByKey1(Map<String, Double> oriMap, final boolean isRise) {
         if (oriMap == null || oriMap.isEmpty()) {

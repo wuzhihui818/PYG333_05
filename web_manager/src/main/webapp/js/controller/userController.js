@@ -48,8 +48,8 @@ app.controller('userController' ,function($scope,$controller   ,userService){
     }
 
     //搜索
-    $scope.search=function(page,rows){
-        userService.search(page,rows,$scope.searchUser).success(
+    $scope.search1=function(page,rows){
+        userService.search1(page,rows,$scope.searchUser).success(
             function(response){
                 $scope.list=response.rows;
                 $scope.paginationConf.totalItems=response.total;//更新总记录数

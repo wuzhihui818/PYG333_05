@@ -6,13 +6,14 @@
 </head>
 <body>
 <!-- 引入ECharts和JQuery文件 -->
-<script src='../js/plugins/echarts/echarts.common.min.js'></script>
-<script src="../js/plugins/jquery/jquery.min.js"></script>
-<script>
+<script src='../plugins/echarts/echarts.common.min.js'></script>
+<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+
+<script type="text/javascript">
     //将集合中的数据保留两位小数
     function dataToFixed(data) {
         var seriesData = [];
-        for (var i = 0; i < data.seriesSaleList.length; i++) {
+        for (var i = 0; i<data.seriesSaleList.length; i++) {
             //将销量保留两位小数
             var temp = data.seriesSaleList[i].toFixed(2);
             seriesData.push(temp);
@@ -65,20 +66,23 @@
     function getData() {
         var start = $('#start').val();
         var end = $('#end').val();
+
         //异步请求
         $.post(
             "../ordersale/getData.do",//访问地址
             {start: start, end: end},//携带的参数
             function (data) {
-                generateChart(data);
+                  generateChart(data);
+
             },
             "json"
         );
     }
 </script>
 <div align="center">
-    <label for="start">开始日期：</label><input id="start" type="date" value="2018-08-13"/>
-    <label for="end">结束日期：</label><input id="end" type="date" value="2018-08-16"/>
+    <label for="start">开始日期：</label><input id="start" type="date" value="2017-08-22"/>
+    <!--开始日期：<input id="start" type="date" value="2017-08-22"/>-->
+    <label for="end">结束日期：</label><input id="end" type="date" value="2017-08-29" />
     <button onclick="getData()">查询</button>
 </div>
 <hr>

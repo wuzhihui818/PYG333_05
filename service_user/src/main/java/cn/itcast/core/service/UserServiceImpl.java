@@ -141,10 +141,4 @@ public class UserServiceImpl implements UserService {
         List<User> users = userDao.selectByExample(query);
         return users;
     }
-
-
-    public static void main(String[] args) {
-        long s = (long)(Math.random() * 1000000);
-        System.out.println("=======" + s);
-    }
 }

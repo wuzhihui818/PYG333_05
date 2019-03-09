@@ -8,7 +8,8 @@
 <!-- 引入ECharts和JQuery文件 -->
 <script src='../js/plugins/echarts/echarts.common.min.js'></script>
 <script src="../js/plugins/jquery/jquery.min.js"></script>
-<script>
+
+<script type="text/javascript">
     //将集合中的数据保留两位小数
     function dataToFixed(data) {
         var seriesData = [];
@@ -71,15 +72,16 @@
             "../ordersale/getData.do",//访问地址
             {start: start, end: end,sellerId : sellerId},//携带的参数
             function (data) {
-                generateChart(data);
+                  generateChart(data);
+
             },
             "json"
         );
     }
 </script>
 <div align="center">
-    <label for="start">开始日期：</label><input id="start" type="date" value="2017-08-23"/>
-    <label for="end">结束日期：</label><input id="end" type="date" value="2017-08-26"/>
+    <label for="start">开始日期：</label><input id="start" type="date" value="2017-08-22"/>
+    <label for="end">结束日期：</label><input id="end" type="date" value="2017-08-29"/>
     <label for="sellerId">商家名称：</label><input id="sellerId" type="text" />
     <button onclick="getData()">查询</button>
 </div>
