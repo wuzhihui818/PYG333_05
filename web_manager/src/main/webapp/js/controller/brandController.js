@@ -79,5 +79,20 @@ app.controller("brandController",function($scope,$controller,$http,brandService)
 			$scope.list = response.rows;
 		});
 	}
-	
+
+    // 显示状态
+    $scope.status = ["未审核","审核通过","已驳回"];
+
+    //品牌审核
+    $scope.updateStatus = function(ids,status){
+        brandService.updateStatus($scope.selectIds,status).success(function(response){
+            if(response.success){
+                //重新查询
+                $scope.reloadList();//重新加载
+                $scope.selectIds = [];
+            }else{
+                alert(response.message);
+            }
+        });
+    }
 });

@@ -6,10 +6,14 @@ import cn.itcast.core.dao.order.OrderDao;
 import cn.itcast.core.dao.order.OrderItemDao;
 import cn.itcast.core.pojo.entity.BuyerCart;
 import cn.itcast.core.pojo.entity.Fields;
+import cn.itcast.core.pojo.entity.PageResult;
 import cn.itcast.core.pojo.log.PayLog;
 import cn.itcast.core.pojo.order.Order;
 import cn.itcast.core.pojo.order.OrderItem;
+import cn.itcast.core.pojo.order.OrderQuery;
 import com.alibaba.dubbo.config.annotation.Service;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.transaction.annotation.Transactional;
@@ -69,12 +73,18 @@ public class OrderServiceImpl implements OrderService {
         redisTemplate.boundHashOps(Fields.CARTLIST_REDIS).delete(userName);
     }
 
+    @Override
+    public List<Order> findAll() {
+        return orderDao.selectByExample(null);
+    }
+
+
     //将订单信息存入payLog对象中
     private PayLog creatPayLog(List<Order> orderList, String userName) {
         PayLog payLog = new PayLog();
         BigDecimal totalFee = new BigDecimal("0");
         String paymentType = null;
-        List<String> orderIdList=new ArrayList<>();
+        List<String> orderIdList = new ArrayList<>();
         for (Order order : orderList) {
             totalFee = totalFee.add(order.getPayment());
             orderIdList.add(String.valueOf(order.getOrderId()));
@@ -83,7 +93,7 @@ public class OrderServiceImpl implements OrderService {
         String out_trade_no = String.valueOf(idWorker.nextId());
 
         payLog.setCreateTime(new Date());
-        payLog.setOrderList(orderIdList.toString().replace("[","").replace("]",""));
+        payLog.setOrderList(orderIdList.toString().replace("[", "").replace("]", ""));
         payLog.setOutTradeNo(out_trade_no);
         payLog.setTotalFee(totalFee.longValue());
         payLog.setUserId(userName);
@@ -152,4 +162,22 @@ public class OrderServiceImpl implements OrderService {
         return orderItemList;
     }
 
+    @Override
+    public PageResult findPage(Integer page, Integer rows, Order order) {
+        //创建查询对象
+        OrderQuery query = new OrderQuery();
+        if (order != null) {
+            //创建where条件对象
+            OrderQuery.Criteria criteria = query.createCriteria();
+            if (order.getOrderId() != null) {
+                criteria.andOrderIdEqualTo(order.getOrderId());
+            }
+            if (order.getStatus() != null && !"".equals(order.getStatus())){
+                criteria.andStatusEqualTo(order.getStatus());
+            }
+        }
+        PageHelper.startPage(page, rows);
+        Page<Order> orderList = (Page<Order>) orderDao.selectByExample(query);
+        return new PageResult(orderList.getTotal(), orderList.getResult());
+    }
 }

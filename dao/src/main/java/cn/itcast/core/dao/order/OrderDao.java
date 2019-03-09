@@ -3,6 +3,8 @@ package cn.itcast.core.dao.order;
 import cn.itcast.core.pojo.order.Order;
 import cn.itcast.core.pojo.order.OrderQuery;
 import java.util.List;
+
+import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.Param;
 
 public interface OrderDao {
