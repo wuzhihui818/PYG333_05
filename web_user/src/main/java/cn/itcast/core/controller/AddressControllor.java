@@ -39,8 +39,6 @@ public class AddressControllor {
      */
     @RequestMapping("addAddress")
     public Result addAddress(@RequestBody Address address){
-
-        System.out.println(address);
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         address.setUserId(userName);
         try {
@@ -58,7 +56,6 @@ public class AddressControllor {
      */
     @RequestMapping("delAddress")
     public Result delAddress(Long id){
-//        System.out.println(id);
         try {
             addressService.delAddress(id);
             return new Result(true,"删除成功");
@@ -75,7 +72,6 @@ public class AddressControllor {
      */
     @RequestMapping("updateAddress")
     public Result updateAddress(@RequestBody Address address){
-//        System.out.println(address);
         try {
             addressService.updateAddress(address);
             return new Result(true,"修改成功");
@@ -84,8 +80,28 @@ public class AddressControllor {
             return new Result(true,"修改失败");
         }
 
+    }
+
+
+    /**
+     * 当前用户修改默认地址
+     */
+    @RequestMapping("morenAddress")
+    public Result morenAddress(Long id){
+        try {
+            addressService.morenAddress(id);
+            return new Result(true,"修改默认地址成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false,"修改默认地址失败");
+        }
 
     }
+
+
+
+
+
 
 
 

@@ -14,4 +14,6 @@ public interface AddressService {
     void updateAddress(Address address);
 
     Address findOne(Long id);
+
+    void morenAddress(Long id);
 }
