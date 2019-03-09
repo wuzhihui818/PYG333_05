@@ -11,4 +11,5 @@ public interface ItemCatService {
     public ItemCat findOne(Long id);
 
     public List<ItemCat> findAll();
+
 }
