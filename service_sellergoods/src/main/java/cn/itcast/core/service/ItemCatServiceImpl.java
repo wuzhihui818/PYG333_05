@@ -2,9 +2,12 @@ package cn.itcast.core.service;
 
 import cn.itcast.core.common.Constants;
 import cn.itcast.core.dao.item.ItemCatDao;
+import cn.itcast.core.pojo.entity.PageResult;
 import cn.itcast.core.pojo.item.ItemCat;
 import cn.itcast.core.pojo.item.ItemCatQuery;
 import com.alibaba.dubbo.config.annotation.Service;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 
@@ -69,6 +72,24 @@ public class ItemCatServiceImpl implements ItemCatService {
 
     @Override
     public void addItemCat(ItemCat itemCat) {
+        itemCatDao.insertSelective(itemCat);
+    }
+
+    @Override
+    public PageResult findPage(ItemCat itemCat, Integer page, Integer rows) {
+        //创建查询对象
+        ItemCatQuery query = new ItemCatQuery();
+        //组装条件
+        query.createCriteria().andStatusEqualTo("0");
+        PageHelper.startPage(page, rows);
+        //查询
+        Page<ItemCat> itemCatList = (Page<ItemCat>)itemCatDao.selectByExample(query);
+        return new PageResult(itemCatList.getTotal(), itemCatList.getResult());
+    }
+
+    @Override
+    public void add(ItemCat itemCat) {
+        itemCat.setStatus("0");
         itemCatDao.insertSelective(itemCat);
     }
 }
