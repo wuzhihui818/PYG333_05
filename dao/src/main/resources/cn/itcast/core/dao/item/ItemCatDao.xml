@@ -74,6 +74,37 @@
       ${fields}
     </if>
   </sql>
+
+
+
+
+
+
+
+  <!--&lt;!&ndash; 查询三级分类信息 &ndash;&gt;-->
+  <!--<select id="selectByParentId" resultType="cn.itcast.core.dao.item.ItemCatDao"> SELECT * FROM tb_item_cat WHERE parent_id = #{id} LIMIT 15 </select>-->
+
+
+
+<!--自定义-->
+  <!--id为TbItemCatMapper接口的方法名-->
+  <select id="findItemCatListByParentId" resultType="cn.itcast.core.pojo.item.ItemCat">
+    select
+    /*这里查询直接用字段名，查询的性能会比用*高一点*/
+    *
+    from
+    tb_item_cat
+    where
+    /*parentId为findItemCatListByParentId方法传递的参数*/
+    parent_id=#{parentId}
+  </select>
+
+
+
+
+
+
+
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.itcast.core.pojo.item.ItemCatQuery" >
     select
     <if test="distinct" >
