@@ -11,7 +11,20 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.BoundValueOperations;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
 
+import javax.jms.JMSException;
+import javax.jms.MapMessage;
+import javax.jms.Message;
+import javax.jms.Session;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import java.util.Date;
 import java.util.List;
@@ -36,7 +49,7 @@ public class UserServiceImpl implements UserService {
         user.setEmail("0");
         user.setBirthday(new Date());
         user.setHeadPic("0");
-        user.setAccountBalance(0l);
+        user.setAccountBalance(0L);
         user.setUpdated(new Date());
         user.setNickName("0");
         user.setIsEmailCheck("0");
@@ -92,6 +105,13 @@ public class UserServiceImpl implements UserService {
         return new PageResult(userList.getTotal(),userList.getResult());
     }
 
+
+    @Override
+    public List<User> findAlluser() {
+        List<User> users = userDao.selectByExample(null);
+        return users;
+    }
+
     @Override
     public Integer queryTotalCount() {
        // UserQuery userQuery = new UserQuery();
@@ -107,28 +127,27 @@ public class UserServiceImpl implements UserService {
         return userDao.countByExample(userQuery);
     }
 
-    @Override
-    public List<User> sta1() {
-
-        UserQuery userQuery = new UserQuery();
-        UserQuery.Criteria criteria = userQuery.createCriteria();
-        criteria.andStatusEqualTo("0");
-        List<User> userList = userDao.selectByExample(userQuery);
-
-
-        return userList;
-       // return null;
-    }
-
-    @Override
-    public List<User> sta2() {
-        UserQuery userQuery = new UserQuery();
-        UserQuery.Criteria criteria = userQuery.createCriteria();
-        criteria.andStatusEqualTo("1");
-        List<User> userList = userDao.selectByExample(userQuery);
-
-
-        return userList;
-
-    }
+//    @Override
+//    public List<User> sta1() {
+//
+//        UserQuery userQuery = new UserQuery();
+//        UserQuery.Criteria criteria = userQuery.createCriteria();
+//        criteria.andStatusEqualTo("0");
+//        List<User> userList = userDao.selectByExample(userQuery);
+//
+//
+//        return userList;
+//       // return null;
+//    }
+//
+//    @Override
+//    public List<User> sta2() {
+//        UserQuery userQuery = new UserQuery();
+//        UserQuery.Criteria criteria = userQuery.createCriteria();
+//        criteria.andStatusEqualTo("1");
+//        List<User> userList = userDao.selectByExample(userQuery);
+//
+//
+//        return userList;
+//
 }

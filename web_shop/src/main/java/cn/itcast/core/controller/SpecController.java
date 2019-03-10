@@ -32,7 +32,7 @@ public class SpecController {
      */
     @RequestMapping("/search")
     public PageResult search(Integer page, Integer rows, @RequestBody Specification spec) {
-        PageResult pageResult = specService.findPage(page, rows, spec);
+        PageResult pageResult = specService.search(page, rows, spec);
         return pageResult;
     }
 

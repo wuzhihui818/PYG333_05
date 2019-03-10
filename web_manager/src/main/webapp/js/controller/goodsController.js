@@ -30,6 +30,14 @@ app.controller('goodsController' ,function($scope,$controller,itemCatService   ,
 			}
 		);				
 	}
+    //查询实体
+    $scope.findAllGoods=function(id){
+        goodsService.findAllGoods(id).success(
+            function(response){
+                $scope.entity= response;
+            }
+        );
+    }
 	
 	//保存 
 	$scope.save=function(){				

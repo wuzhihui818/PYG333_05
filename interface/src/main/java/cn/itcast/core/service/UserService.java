@@ -14,7 +14,7 @@ public interface UserService {
 
     //PageResult findPage(Integer page, Integer rows);
 
-    void add(User user);
+//    void add(User user);
 
     User findOne(Long id);
 
@@ -24,12 +24,15 @@ public interface UserService {
 
     PageResult findPage(Integer page, Integer rows, User user);
 
+    public  void  add(User user);
+
+    List<User> findAlluser();
 
     Integer queryTotalCount();
 
     Integer sta1Count();
 
-    List<User> sta1();
+//    List<User> sta1();
 
-    List<User> sta2();
+//    List<User> sta2();
 }
