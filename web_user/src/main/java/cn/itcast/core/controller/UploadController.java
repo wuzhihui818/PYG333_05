@@ -27,7 +27,9 @@ public class UploadController {
             //上传并返回文件的路径和文件名
             String path = fastDFS.uploadFile(file.getBytes(), file.getOriginalFilename(), file.getSize());
             //上传后返回fastDFS文件服务器地址+ 上传后的文件路径和文件名
+            System.out.println(fileServer + path);
             return new Result(true, fileServer + path);
+
         } catch (Exception e) {
             e.printStackTrace();
             return new Result(false, "上传失败!!!!!!!!!!!!!!!");

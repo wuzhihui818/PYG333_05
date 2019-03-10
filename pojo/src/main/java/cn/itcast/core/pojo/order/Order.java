@@ -32,6 +32,39 @@ public class Order implements Serializable {
         this.setSellerNickName = setSellerNickName;
     }
 
+    public String getLongtime() {
+        return longtime;
+    }
+
+    public void setLongtime(String longtime) {
+        this.longtime = longtime;
+    }
+
+    /*
+     * 陈福健
+     * 商家后台-订单统计用到的开始时间和结束时间
+     * */
+    private String longtime;
+    private String timeBegin;
+    private String timeEnd;
+
+    public String getTimeBegin() {
+        return timeBegin;
+    }
+
+    public void setTimeBegin(String timeBegin) {
+        this.timeBegin = timeBegin;
+    }
+
+    public String getTimeEnd() {
+        return timeEnd;
+    }
+
+    public void setTimeEnd(String timeEnd) {
+        this.timeEnd = timeEnd;
+    }
+
+
     /**
      * 订单id
      */
@@ -136,6 +169,9 @@ public class Order implements Serializable {
      * 收货人
      */
     private String receiver;
+
+
+
 
     /**
      * 过期时间，定期清理

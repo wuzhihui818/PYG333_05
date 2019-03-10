@@ -1,10 +1,11 @@
 app.service("uploadService",function($http){
 	
 	this.uploadFile = function(){
+
 		// 向后台传递数据:
 		var formData = new FormData();
 		// 向formData中添加数据:
-		formData.append("file",file.files[0]);
+		formData.append("file",up_img_WU_FILE_0.files[0]);
 		
 		return $http({
 			method:'post',

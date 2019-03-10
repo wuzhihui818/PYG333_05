@@ -15,17 +15,21 @@ app.controller('userController' ,function($scope,$controller,loginService,upload
 
     // $scope.entity={goods:{},goodsDesc:{},itemList:[]}
    /*图片上传*/
-    // 文件上传的方法:
-    // 文件上传的方法:
+    // 文件上传的方法 :
+
     $scope.uploadFile = function(){
+        // 调用uploadService的方法完成文件的上传
         uploadService.uploadFile().success(function(response){
-            if(response.flag){
-                $scope.entity.pic = response.message;
+            if(response.success){
+                alert(555);
+                alert(response.message);
+                // $scope.image_entity.url =  response.message;
             }else{
                 alert(response.message);
             }
         });
     }
+
 
 
     // 获得了image_entity的实体的数据{"color":"褐色","url":"http://192.168.209.132/group1/M00/00/00/wKjRhFn1bH2AZAatAACXQA462ec665.jpg"}
