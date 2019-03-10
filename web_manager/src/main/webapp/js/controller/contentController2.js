@@ -1,5 +1,5 @@
  //控制层 
-app.controller('contentController' ,function($scope,$controller ,uploadService,contentCategoryService  ,contentService){	
+app.controller('contentController2' ,function($scope,$controller ,uploadService,contentCategoryService  ,contentService){
 	
 	$controller('baseController',{$scope:$scope});//继承
 	
@@ -30,6 +30,15 @@ app.controller('contentController' ,function($scope,$controller ,uploadService,c
 			}
 		);				
 	}
+
+    //查询实体
+    $scope.importData=function(){
+        contentService.importData().success(
+            function(response){
+                $scope.entity= response;
+            }
+        );
+    }
 	
 	//保存 
 	$scope.save=function(){				
@@ -50,6 +59,22 @@ app.controller('contentController' ,function($scope,$controller ,uploadService,c
 			}		
 		);				
 	}
+
+    //保存
+    $scope.saveExcel=function(){
+        var serviceObject;//服务层对象
+		serviceObject=uploadService.saveExcel( $scope.entity);//增加
+        serviceObject.success(
+            function(response){
+                if(response.success){
+                    //重新查询
+                    $scope.reloadList();//重新加载
+                }else{
+                    alert(response.message);
+                }
+            }
+        );
+    }
 	
 	 
 	//批量删除 

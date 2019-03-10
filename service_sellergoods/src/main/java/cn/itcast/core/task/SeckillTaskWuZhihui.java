@@ -86,7 +86,7 @@ public class SeckillTaskWuZhihui {
 
         for (SeckillGoods seckill : seckillGoodsList) {
 
-            if (seckill.getEndTime().getTime() < new Date().getTime()) {//如果结束日期小于当前日期，则表示过期
+            if (seckill.getEndTime().getTime() < System.currentTimeMillis()) {//如果结束日期小于当前日期，则表示过期
 
                 seckillGoodsDao.updateByPrimaryKey(seckill);//向数据库保存记录
 

@@ -148,9 +148,9 @@ public class SeckillServiceImpl implements SeckillService {
 //              将商品加入到redis中
 //                订单id
                 final long orderId = new IdWorker().nextId();
-                redisTemplate.boundHashOps(Fields.SECKILLGOODSORDER_REDIS).put(orderId,seckillGoods1);
-//                将商品添加到数据库秒杀订单表中
                 SeckillOrder seckillOrder=creatSeckillOrder(orderId,name,seckillGoods1);
+                redisTemplate.boundHashOps(Fields.SECKILLGOODSORDER_REDIS).put(name,seckillOrder);
+//                将商品添加到数据库秒杀订单表中
                 seckillOrderDao.insertSelective(seckillOrder);
 
 //                 发送点对点消息,五分钟后删除redis中的订单消息
@@ -192,21 +192,34 @@ public class SeckillServiceImpl implements SeckillService {
      */
     @Override
     public SeckillOrder findSeckillOrder(String name) {
-        SeckillGoods seckillGoods = (SeckillGoods) redisTemplate.boundHashOps(Fields.SECKILLGOODSORDER_REDIS).get(name);
-
-        SeckillOrderQuery query = new SeckillOrderQuery();
-        SeckillOrderQuery.Criteria criteria = query.createCriteria();
-        criteria.andSeckillIdEqualTo(seckillGoods.getId());
-        criteria.andStatusEqualTo("0");
-        List<SeckillOrder> seckillOrders = seckillOrderDao.selectByExample(query);
-        if (seckillOrders!=null && seckillOrders.size()>0){
-            SeckillOrder seckillOrder = seckillOrders.get(0);
+        SeckillOrder seckillOrder = (SeckillOrder) redisTemplate.boundHashOps(Fields.SECKILLGOODSORDER_REDIS).get(name);
+        SeckillGoods seckillGoods = seckillGoodsDao.selectByPrimaryKey(seckillOrder.getSeckillId());
+        if (seckillGoods!=null){
             seckillOrder.setMoney(seckillGoods.getCostPrice());
             seckillOrder.setSmallPic(seckillGoods.getSmallPic());
             seckillOrder.setTitle(seckillGoods.getTitle());
-//            将订单信息存入redis,将原来的覆盖
             redisTemplate.boundHashOps(Fields.SECKILLGOODSORDER_REDIS).put(name,seckillOrder);
             return seckillOrder;
+
+//        SeckillOrderQuery query = new SeckillOrderQuery();
+//        SeckillOrderQuery.Criteria criteria = query.createCriteria();
+//        if (seckillGoods!=null){
+//
+//            criteria.andSeckillIdEqualTo(seckillGoods.getId());
+//        }
+//        criteria.andStatusEqualTo("0");
+//        List<SeckillOrder> seckillOrders = seckillOrderDao.selectByExample(query);
+//        if (seckillOrders!=null && seckillOrders.size()>0){
+//            SeckillOrder seckillOrder = seckillOrders.get(0);
+//            if (seckillGoods!=null){
+//                seckillOrder.setMoney(seckillGoods.getCostPrice());
+//                seckillOrder.setSmallPic(seckillGoods.getSmallPic());
+//                seckillOrder.setTitle(seckillGoods.getTitle());
+//
+//            }
+//            将订单信息存入redis,将原来的覆盖
+//            redisTemplate.boundHashOps(Fields.SECKILLGOODSORDER_REDIS).put(name,seckillOrder);
+//            return seckillOrder;
         }
         return null;
     }

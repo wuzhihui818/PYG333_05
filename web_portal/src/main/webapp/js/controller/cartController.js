@@ -24,7 +24,7 @@ app.controller('cartController',function($scope,cartService){
         cartService.addGoodsToCollect(itemId).success(
             function(response){
                 if(response.success){//如果成功
-                    $scope.findCartList();
+                    alert(response.message);
                 }else{
                     alert(response.message);
                 }

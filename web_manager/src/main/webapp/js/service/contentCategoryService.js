@@ -1,7 +1,7 @@
 //服务层
 app.service('contentCategoryService',function($http){
 	    	
-	读取列表数据绑定到表单中
+	// 读取列表数据绑定到表单中
 	this.findAll=function(){
 		return $http.get('../contentCategory/findAll.do');
 	}
