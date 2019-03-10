@@ -16,4 +16,6 @@ public interface SeckillService {
     void submitOrder(Long seckillId,String name);
 
     SeckillOrder findSeckillOrder(String name);
+
+    void addOrder(SeckillOrder seckillOrder);
 }

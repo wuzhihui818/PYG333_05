@@ -9,6 +9,7 @@ import cn.itcast.core.pojo.entity.Fields;
 import cn.itcast.core.pojo.seckill.SeckillGoods;
 import cn.itcast.core.pojo.seckill.SeckillGoodsQuery;
 import cn.itcast.core.pojo.seckill.SeckillOrder;
+import cn.itcast.core.pojo.seckill.SeckillOrderQuery;
 import com.alibaba.dubbo.config.annotation.Service;
 import org.apache.activemq.ScheduledMessage;
 import org.apache.activemq.command.ActiveMQQueue;
@@ -152,7 +153,7 @@ public class SeckillServiceImpl implements SeckillService {
                 SeckillOrder seckillOrder=creatSeckillOrder(orderId,name,seckillGoods1);
                 seckillOrderDao.insertSelective(seckillOrder);
 
-//                todo 发送点对点消息,五分钟后删除redis中的订单消息
+//                 发送点对点消息,五分钟后删除redis中的订单消息
                 jmsTemplate.send(deleteSeckillOrderFromRedis, new MessageCreator() {
                     @Override
                     public Message createMessage(Session session) throws JMSException {
@@ -192,10 +193,26 @@ public class SeckillServiceImpl implements SeckillService {
     @Override
     public SeckillOrder findSeckillOrder(String name) {
         SeckillGoods seckillGoods = (SeckillGoods) redisTemplate.boundHashOps(Fields.SECKILLGOODSORDER_REDIS).get(name);
-        SeckillOrder seckillOrder = new SeckillOrder();
-        seckillOrder.setMoney(seckillGoods.getCostPrice());
-        seckillOrder.setSmallPic(seckillGoods.getSmallPic());
-        seckillOrder.setTitle(seckillGoods.getTitle());
-        return seckillOrder;
+
+        SeckillOrderQuery query = new SeckillOrderQuery();
+        SeckillOrderQuery.Criteria criteria = query.createCriteria();
+        criteria.andSeckillIdEqualTo(seckillGoods.getId());
+        criteria.andStatusEqualTo("0");
+        List<SeckillOrder> seckillOrders = seckillOrderDao.selectByExample(query);
+        if (seckillOrders!=null && seckillOrders.size()>0){
+            SeckillOrder seckillOrder = seckillOrders.get(0);
+            seckillOrder.setMoney(seckillGoods.getCostPrice());
+            seckillOrder.setSmallPic(seckillGoods.getSmallPic());
+            seckillOrder.setTitle(seckillGoods.getTitle());
+//            将订单信息存入redis,将原来的覆盖
+            redisTemplate.boundHashOps(Fields.SECKILLGOODSORDER_REDIS).put(name,seckillOrder);
+            return seckillOrder;
+        }
+        return null;
+    }
+
+    @Override
+    public void addOrder(SeckillOrder seckillOrder) {
+        seckillOrderDao.updateByPrimaryKeySelective(seckillOrder);
     }
 }

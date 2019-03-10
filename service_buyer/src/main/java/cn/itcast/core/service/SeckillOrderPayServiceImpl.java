@@ -1,12 +1,9 @@
 package cn.itcast.core.service;
 
 import cn.itcast.core.common.HttpClient;
-import cn.itcast.core.dao.log.PayLogDao;
-import cn.itcast.core.dao.order.OrderDao;
+import cn.itcast.core.dao.seckill.SeckillOrderDao;
 import cn.itcast.core.pojo.entity.Fields;
-import cn.itcast.core.pojo.log.PayLog;
-import cn.itcast.core.pojo.log.PayLogQuery;
-import cn.itcast.core.pojo.order.Order;
+import cn.itcast.core.pojo.seckill.SeckillOrder;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.wxpay.sdk.WXPayUtil;
 import org.apache.activemq.ScheduledMessage;
@@ -22,18 +19,19 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.Session;
 import javax.jms.TextMessage;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 @Service
 @Transactional
-public class PayServiceImpl implements PayService {
+public class SeckillOrderPayServiceImpl implements SeckillOrderPayService {
     @Autowired
     private RedisTemplate redisTemplate;
     @Autowired
     private JmsTemplate jmsTemplate;
     @Autowired
-    private ActiveMQQueue closeOrder;
+    private ActiveMQQueue close_seckillorder;
     @Value("${appid}")
     private String appid;
     @Value("${partner}")
@@ -45,15 +43,13 @@ public class PayServiceImpl implements PayService {
     @Value("${requesturl}")
     private String requesturl;
     @Autowired
-    private OrderDao orderDao;
-    @Autowired
-    private PayLogDao payLogDao;
+    private SeckillOrderDao seckillOrderDao;
 
     @Override
     public Map creatNative(final String userName) {
-        final PayLog payLog = (PayLog) redisTemplate.boundHashOps(Fields.PAY_LOG_REDIS).get(userName);
+        final SeckillOrder seckillOrder = (SeckillOrder) redisTemplate.boundHashOps(Fields.SECKILLGOODSORDER_REDIS).get(userName);
 //         创建参数,发送到微信支付
-        Map xmlMap = creatWXPayXmlMap(payLog.getOutTradeNo());
+        Map xmlMap = creatWXPayXmlMap(String.valueOf(seckillOrder.getId()));
         try {
             String xmlStr = WXPayUtil.generateSignedXml(xmlMap, partnerkey);
             HttpClient httpClient = new HttpClient(requesturl);
@@ -67,14 +63,14 @@ public class PayServiceImpl implements PayService {
             Map<String, String> map = new HashMap<>();
 //            获取支付链接
             map.put("code_url", contentMap.get("code_url"));
-            map.put("total_fee", payLog.getTotalFee().toString());
-            map.put("out_trade_no", payLog.getOutTradeNo());
+            map.put("total_fee", String.valueOf(seckillOrder.getMoney()));
+            map.put("out_trade_no", String.valueOf(seckillOrder.getId()));
 //            发送点对点延时消息,超过一定时间,查询后如果还未支付则关闭订单
-            jmsTemplate.send(closeOrder, new MessageCreator() {
+            jmsTemplate.send(close_seckillorder, new MessageCreator() {
                 @Override
                 public Message createMessage(Session session) throws JMSException {
                     TextMessage textMessage = session.createTextMessage(userName);
-                    textMessage.setLongProperty(ScheduledMessage.AMQ_SCHEDULED_DELAY,1000*60);
+                    textMessage.setLongProperty(ScheduledMessage.AMQ_SCHEDULED_DELAY, 1000 * 60);
                     return textMessage;
                 }
             });
@@ -93,9 +89,9 @@ public class PayServiceImpl implements PayService {
     @Override
     public String queryPayStatus(String userName) throws Exception {
 //        从redis中获取pay_log
-        PayLog payLog = (PayLog) redisTemplate.boundHashOps(Fields.PAY_LOG_REDIS).get(userName);
+        SeckillOrder seckillOrder = (SeckillOrder) redisTemplate.boundHashOps(Fields.SECKILLGOODSORDER_REDIS).get(userName);
 //        生成需要传输到微信接口的参数,map集合
-        Map xmlMap = creatXmlMap(payLog.getOutTradeNo());
+        Map xmlMap = creatXmlMap(String.valueOf(seckillOrder.getId()));
         int flag = 0;
         String msg = "";
         HttpClient client = new HttpClient("https://api.mch.weixin.qq.com/pay/orderquery");
@@ -110,8 +106,8 @@ public class PayServiceImpl implements PayService {
 //如果返回trade_state为success,则为支付成功
             if ("SUCCESS".equals(trade_state)) {
 //                    将数据库中关于订单的信息更改为已支付,并将redis中的payLog清除
-                updateState(payLog);
-                redisTemplate.boundHashOps(Fields.PAY_LOG_REDIS).delete(userName);
+                updateState(seckillOrder);
+                redisTemplate.boundHashOps(Fields.SECKILLGOODSORDER_REDIS).delete(userName);
                 msg = "SUCCESS";
                 break;
 
@@ -131,24 +127,14 @@ public class PayServiceImpl implements PayService {
     }
 
     //修改付款后的状态信息
-    private void updateState(PayLog payLog) {
-        String outTradeNo = payLog.getOutTradeNo();
-        payLog.setTradeState("1");
-//      修改payLog中的状态为1
-        PayLogQuery payLogQuery = new PayLogQuery();
-        PayLogQuery.Criteria criteria = payLogQuery.createCriteria();
-        criteria.andOutTradeNoEqualTo(outTradeNo);
-        payLogDao.updateByExampleSelective(payLog, payLogQuery);
-//        修改order中的状态信息"2"
-        String orders = payLog.getOrderList();
-        String[] orderList = orders.split(",");
-        Order order = new Order();
-        for (String orderId : orderList) {
-            order.setOrderId(Long.parseLong(orderId));
-            order.setStatus("2");
-            orderDao.updateByPrimaryKeySelective(order);
-        }
+    private void updateState(SeckillOrder seckillOrder) {
+        seckillOrder.setStatus("1");
+        seckillOrder.setPayTime(new Date());
+//      修改seckillOrder中的状态为1
+        seckillOrderDao.updateByPrimaryKeySelective(seckillOrder);
     }
+
+
 
     //创建请求支付发送至微信的参数,格式为map
     private Map creatWXPayXmlMap(String out_trade_no) {

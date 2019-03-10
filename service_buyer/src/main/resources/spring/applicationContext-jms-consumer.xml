@@ -32,11 +32,10 @@
 	<!--<bean id="pageAndSolrListener" class="cn.itcast.core.listener.ItemSearchListener"></bean>-->
 	
 	
-	<!-- 点对点模式，删除索引库-->  
+	<!-- 点对点模式，超时关闭订单-->
 	<bean id="closeOrder" class="org.apache.activemq.command.ActiveMQQueue">
-	    <constructor-arg value="close_order"/>
-	</bean>    
-	
+		<constructor-arg value="closeOrder"/>
+	</bean>
 	<!-- 点对点模式, 消息监听容器  超时关闭订单-->
 	<bean class="org.springframework.jms.listener.DefaultMessageListenerContainer">
 		<property name="connectionFactory" ref="connectionFactory" />
@@ -44,5 +43,18 @@
 		<property name="messageListener" ref="closeOrderListener" />
 	</bean>
 	<bean id="closeOrderListener" class="cn.itcast.core.listener.CloseOrderListener"></bean>
-	
+
+
+	<!-- 点对点模式，超时关闭秒杀订单-->
+	<bean id="close_seckillorder" class="org.apache.activemq.command.ActiveMQQueue">
+		<constructor-arg value="close_seckillorder"/>
+	</bean>
+	<!-- 点对点模式, 消息监听容器  超时关闭订单-->
+	<bean class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+		<property name="connectionFactory" ref="connectionFactory" />
+		<property name="destination" ref="close_seckillorder" />
+		<property name="messageListener" ref="close_seckillorderListener" />
+	</bean>
+	<bean id="close_seckillorderListener" class="cn.itcast.core.listener.CloseSeckillOrderListener"></bean>
+
 </beans>

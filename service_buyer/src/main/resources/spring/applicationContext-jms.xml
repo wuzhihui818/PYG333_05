@@ -35,7 +35,14 @@
 	<!-- 点对点模式，超时关闭订单-->
 	<bean id="closeOrder" class="org.apache.activemq.command.ActiveMQQueue">
 		<!-- 定义关闭订单使用的队列名称-->
-	    <constructor-arg value="close_order"/>
-	</bean>  
-	
+	    <constructor-arg value="closeOrder"/>
+	</bean>
+
+	<!-- 点对点模式，超时关闭秒杀订单-->
+	<bean id="close_seckillorder" class="org.apache.activemq.command.ActiveMQQueue">
+		<!-- 定义关闭订单使用的队列名称-->
+	    <constructor-arg value="close_seckillorder"/>
+	</bean>
+
+
 </beans>
