@@ -1,5 +1,5 @@
 //服务层
-app.service('userService',function($http){
+app.service('userService01',function($http){
 
 	//读取列表数据绑定到表单中
 	this.findAll=function(){

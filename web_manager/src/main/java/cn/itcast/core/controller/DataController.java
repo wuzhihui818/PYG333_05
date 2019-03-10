@@ -33,7 +33,7 @@ public class DataController {
     @RequestMapping("getData")
     public void exportExcelData(HttpServletRequest request, HttpServletResponse response){
         //获取后台数据
-        List<User> userList = userService.findAlluser();
+        List<User> userList = userService.findAll();
         // 定义表的标题
         String title = "User数据";
         //定义表的列名

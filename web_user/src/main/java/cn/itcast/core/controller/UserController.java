@@ -1,4 +1,3 @@
-/*
 package cn.itcast.core.controller;
 
 import cn.itcast.core.common.PhoneFormatCheckUtils;
@@ -20,13 +19,11 @@ public class UserController {
     @Reference
     private UserService userService;
 
-    */
-/**
+    /**
      * 生成随机六位以内数字作为验证码, 发送到指定手机号上
      * @param phone 手机号
      * @return
-     *//*
-
+     */
     @RequestMapping("/sendCode")
     public Result sendCode(String phone) {
         try {
@@ -44,13 +41,11 @@ public class UserController {
         }
     }
 
-    */
-/**
+    /**
      * 完成注册, 保存用户
      * @param user      用户对象
      * @param smscode   页面填写的验证码
-     *//*
-
+     */
     @RequestMapping("/add")
     public Result add(@RequestBody User user, String smscode) {
         try {
@@ -74,11 +69,4 @@ public class UserController {
             return new Result(false, "注册失败!");
         }
     }
-//    @RequestMapping("")
-//    public List<User>  checkStatus(String userName){
-//        List<User> userList = userService.findOne(userName);
-//        System.out.println("????????????????????/");
-//        return userList;
-//    }
 }
-*/
