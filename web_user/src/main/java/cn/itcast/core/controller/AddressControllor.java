@@ -1,6 +1,9 @@
 package cn.itcast.core.controller;
 
 import cn.itcast.core.pojo.address.Address;
+import cn.itcast.core.pojo.address.Areas;
+import cn.itcast.core.pojo.address.Cities;
+import cn.itcast.core.pojo.address.Provinces;
 import cn.itcast.core.pojo.entity.Result;
 import cn.itcast.core.service.AddressService;
 import com.alibaba.dubbo.config.annotation.Reference;
@@ -16,6 +19,7 @@ import java.util.List;
 public class AddressControllor {
     @Reference
     private AddressService addressService;
+
     /**
      * 获取当前用户的收货地址集合
      * @return
@@ -107,6 +111,36 @@ public class AddressControllor {
             return new Result(false,"修改默认地址失败");
         }
 
+    }
+
+    /**
+     * 查询所有省份
+     * @return
+     */
+    @RequestMapping("/findProvince")
+    public List<Provinces> findProvince(String parentId) {
+        List<Provinces> Cat1list = addressService.findProvince(parentId);
+        return Cat1list;
+    }
+
+    /**
+     * 根据父级ID查询 城市
+     * @return
+     */
+    @RequestMapping("/findCity")
+    public List<Cities> findCity(String parentId) {
+        List<Cities> Cat2list = addressService.findCity(parentId);
+        return Cat2list;
+    }
+
+    /**
+     * 根据父级ID查询 区域
+     * @return
+     */
+    @RequestMapping("/findArea")
+    public List<Areas> findArea(String parentId) {
+        List<Areas> Cat3List = addressService.findArea(parentId);
+        return Cat3List;
     }
 
 

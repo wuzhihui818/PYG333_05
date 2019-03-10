@@ -1,8 +1,10 @@
 package cn.itcast.core.service;
 
 import cn.itcast.core.dao.address.AddressDao;
-import cn.itcast.core.pojo.address.Address;
-import cn.itcast.core.pojo.address.AddressQuery;
+import cn.itcast.core.dao.address.AreasDao;
+import cn.itcast.core.dao.address.CitiesDao;
+import cn.itcast.core.dao.address.ProvincesDao;
+import cn.itcast.core.pojo.address.*;
 import com.alibaba.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -11,6 +13,12 @@ import java.util.List;
 public class AddressServiceImpl implements AddressService {
     @Autowired
     private AddressDao addressDao;
+    @Autowired
+    private ProvincesDao provincesDao;
+    @Autowired
+    private CitiesDao citiesDao;
+    @Autowired
+    private AreasDao areasDao;
 
     /**
      * 查询用户所有地址
@@ -90,6 +98,28 @@ public class AddressServiceImpl implements AddressService {
         address1.setId(id);
         address1.setIsDefault("1");
         addressDao.updateByPrimaryKeySelective(address1);
+    }
+
+    @Override
+    public List<Provinces> findProvince(String parentId) {
+        List<Provinces> provinces = provincesDao.selectByExample(null);
+        return provinces;
+    }
+
+    @Override
+    public List<Cities> findCity(String parentId) {
+        CitiesQuery query = new CitiesQuery();
+        CitiesQuery.Criteria criteria = query.createCriteria();
+        criteria.andProvinceidEqualTo(parentId);
+        return citiesDao.selectByExample(query);
+    }
+
+    @Override
+    public List<Areas> findArea(String parentId) {
+        AreasQuery query=new AreasQuery();
+        AreasQuery.Criteria criteria = query.createCriteria();
+        criteria.andCityidEqualTo(parentId);
+        return areasDao.selectByExample(query);
     }
 
 }

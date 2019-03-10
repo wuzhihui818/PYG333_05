@@ -12,10 +12,11 @@
     <link rel="stylesheet" type="text/css" href="css/pages-seckillOrder.css" />
 	<script src="plugins/angularjs/angular.min.js"></script>
 	<script type="text/javascript" src="js/base.js"></script>
-	<script type="text/javascript" src="js/service/addressService.js"></script>
+	<script type="text/javascript" src="js/controller/addressController.js"></script>
+	<script type="text/javascript" src="js/service/addressService2.js"></script>
 </head>
 
-<body ng-app="pinyougou" ng-controller="addressController"  ng-init="findAll()">
+<body ng-app="pinyougou" ng-controller="addressController"  ng-init="findAll();selectProvinceList()">
     <!-- 头部栏位 -->
     <!--页面顶部-->
 <div id="nav-bottom">
@@ -250,22 +251,22 @@ $(function(){
                                                 <input type="text" class="input-medium" ng-model="entity.contact">
                                             </div>
                                         </div>
-                                        <!--<div class="control-group">
+                                        <div class="control-group">
                                             <label class="control-label">所在地区：</label>
                                             <div class="controls">
                                                 <div data-toggle="distpicker">
                                                 <div class="form-group area">
-                                                    <select class="form-control" id="province1"></select>
+                                                    <select class="form-control" id="province1" ng-model="entity.provinceId" ng-options="province.provinceid as province.province for province in Cat1List"></select>
                                                 </div>
                                                 <div class="form-group area">
-                                                    <select class="form-control" id="city1"></select>
+                                                    <select class="form-control" id="city1" ng-model="entity.cityId" ng-options="city.cityid as city.city for city in Cat2List"></select>
                                                 </div>
                                                 <div class="form-group area">
-                                                    <select class="form-control" id="district1"></select>
+                                                    <select class="form-control" id="district1" ng-model="entity.townId" ng-options="area.areaid as area.area for area in Cat3List"></select>
                                                 </div>
                                             </div>
                                             </div>									 
-                                        </div>-->
+                                        </div>
                                         <div class="control-group">
                                             <label class="control-label">详细地址：</label>
                                             <div class="controls">

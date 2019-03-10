@@ -15,7 +15,7 @@ app.controller("categoryController",function($scope,$controller,$http,categorySe
 
     // 保存品牌的方法:
     $scope.save = function(){
-        // 区分是保存还是修改
+        // 区分是保存还是修改  商家分类申请可以 不判断 直接保存 因为商家没有权限修改分类
         var object;
         if($scope.entity.id != null){
             // 更新

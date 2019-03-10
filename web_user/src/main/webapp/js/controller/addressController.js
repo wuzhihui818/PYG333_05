@@ -1,5 +1,6 @@
-app.controller('addressController',function($scope,$http){
+app.controller('addressController',function($scope,$http,addressService2){
     $scope.shifoumoren=['','默认地址'];
+
     $scope.findAll=function () {
         $http.get('../address/findListByLoginUser.do').success(
             function(response){
@@ -56,5 +57,28 @@ app.controller('addressController',function($scope,$http){
             }
         );
     }
+
+
+    // 查询一级分类列表:
+    $scope.selectProvinceList = function(){
+        addressService2.findProvince(0).success(function(response){
+            $scope.Cat1List = response;
+        });
+    }
+
+    // 查询二级分类列表:
+    $scope.$watch("entity.provinceId",function(newValue,oldValue){
+        addressService2.findCity(newValue).success(function(response){
+            $scope.Cat2List = response;
+        });
+    });
+
+    // 查询三级分类列表:
+    $scope.$watch("entity.cityId",function(newValue,oldValue){
+        addressService2.findArea(newValue).success(function(response){
+            $scope.Cat3List = response;
+        });
+    });
+
 
 });
