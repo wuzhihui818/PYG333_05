@@ -31,7 +31,7 @@
 <!-- .box-body -->
 
 <div class="box-header with-border">
-    <h3 class="box-title">订单管理</h3>
+    <h3 class="box-title">订单统计</h3>
 </div>
 
 <div class="box-body">
@@ -41,8 +41,8 @@
 
         <div class="box-tools pull-right">
             <div class="has-feedback">
-                订单编号：
-                <input type="text" ng-model="searchEntity.orderId">
+                用户名：
+                <input type="text" ng-model="searchEntity.userId">
                 <input class="btn btn-default" ng-click="reloadList()" type="button" value="查询">
             </div>
         </div>
@@ -56,6 +56,7 @@
                     <input id="selall" type="checkbox" class="icheckbox_square-blue">
                 </th>
                 <th class="sorting_asc">订单编号</th>
+                <th class="sorting_asc">用户名</th>
                 <th class="sorting">交易金额</th>
                 <th class="sorting">订单状态</th>
                 <th class="sorting">交易时间</th>
@@ -66,6 +67,7 @@
             <tr ng-repeat="entity in list">
                 <td><input ng-click="updateSelection($event,entity.oderId)" type="checkbox"></td>
                 <td>{{entity.orderId}}</td>
+                <td>{{entity.userId}}</td>
                 <td>{{entity.payment}}</td>
                 <td>{{status[entity.status]}}</td>
                 <td>{{entity.createTime}}</td>

@@ -175,6 +175,9 @@ public class OrderServiceImpl implements OrderService {
             if (order.getStatus() != null && !"".equals(order.getStatus())){
                 criteria.andStatusEqualTo(order.getStatus());
             }
+            if (order.getUserId() != null && !"".equals(order.getUserId())){
+                criteria.andUserIdEqualTo(order.getUserId());
+            }
         }
         PageHelper.startPage(page, rows);
         Page<Order> orderList = (Page<Order>) orderDao.selectByExample(query);

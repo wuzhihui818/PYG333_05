@@ -14,4 +14,5 @@ app.service('orderService',function($http){
     this.findPage=function(page,rows){
         return $http.get('../order/findPage.do?page='+page+'&rows='+rows);
     }*/
+
 })
