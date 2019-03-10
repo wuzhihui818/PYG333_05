@@ -1,5 +1,6 @@
 package cn.itcast.core.controller;
 
+import cn.itcast.core.pojo.collect.Collect;
 import cn.itcast.core.pojo.entity.Result;
 import cn.itcast.core.pojo.item.Item;
 import cn.itcast.core.service.CollectService;
@@ -14,8 +15,10 @@ import java.util.List;
 @RestController
 @RequestMapping("collect")
 public class CollectController {
+
     @Reference
     private CollectService collectService;
+
     @CrossOrigin(origins = "http://localhost:8086", allowCredentials = "true")
     @RequestMapping("addGoodsToCollectList")
     public Result addGoodsToCollectList(Long itemId){
@@ -43,5 +46,22 @@ public class CollectController {
 ////        String username = user.getUsername();
 //        return collectService.findItemList(username);
 //    }
+
+    /**
+     *
+     * @param itemId
+     * @return
+     */
+    @RequestMapping("addGoodsToCollect")
+    public Result addGoodsToCollect (Long itemId){
+        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        try {
+            collectService.addGoodsToCollect(itemId,userName);
+            return new Result(true,"添加成功！");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false,"添加失败！");
+        }
+    }
 
 }
