@@ -9,6 +9,11 @@ app.service('cartService',function($http){
 	this.addGoodsToCartList=function(itemId,num){
 		return $http.get('cart/addGoodsToCartList.do?itemId='+itemId+'&num='+num);
 	}
+
+    //添加购物车商品到关注
+    this.addGoodsToCollect=function(itemId){
+        return $http.get('collect/addGoodsToCollect.do?itemId='+itemId);
+    }
 	
 	//求合计数
 	this.sum=function(cartList){

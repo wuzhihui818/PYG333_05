@@ -1,12 +1,17 @@
 package cn.itcast.core.service;
 
+import cn.itcast.core.common.Constants;
 import cn.itcast.core.dao.collect.CollectDao;
 import cn.itcast.core.dao.item.ItemDao;
+import cn.itcast.core.dao.user.UserDao;
 import cn.itcast.core.pojo.collect.Collect;
 import cn.itcast.core.pojo.collect.CollectQuery;
 import cn.itcast.core.pojo.item.Item;
+import cn.itcast.core.pojo.user.User;
+import cn.itcast.core.pojo.user.UserQuery;
 import com.alibaba.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.ArrayList;
@@ -18,6 +23,9 @@ public class CollectServiceImpl implements CollectService {
     private CollectDao collectDao;
     @Autowired
     private ItemDao itemDao;
+    @Autowired
+    private UserDao userDao;
+
 
     /**
      * 添加商品到收藏列表
@@ -60,5 +68,24 @@ public class CollectServiceImpl implements CollectService {
             }
         }
         return items;
+    }
+
+    @Override
+    public void addGoodsToCollect(Long itemId,String userName) {
+
+        Collect collect = new Collect();
+        UserQuery query = new UserQuery();
+        UserQuery.Criteria criteria = query.createCriteria();
+        criteria.andUsernameEqualTo(userName);
+        List<User> userList = userDao.selectByExample(query);
+        for (User user : userList) {
+            Long userId = user.getId();
+            collect.setUserid(userId);
+        }
+
+        collect.setItemid(itemId);
+        collect.setUsername(userName);
+        collectDao.insertSelective(collect);
+
     }
 }

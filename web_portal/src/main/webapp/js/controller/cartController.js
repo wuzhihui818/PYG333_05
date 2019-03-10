@@ -10,15 +10,27 @@ app.controller('cartController',function($scope,cartService){
 		);
 	}
     //查询收藏列表
-    $scope.findCartList=function(){
-        cartService.findCartList().success(
+    // $scope.findCartList=function(){
+    //     cartService.findCartList().success(
+    //         function(response){
+    //             $scope.cartList=response;
+    //             $scope.totalValue= cartService.sum($scope.cartList);
+    //         }
+    //     );
+    // }
+
+    //添加购物车商品到关注
+    $scope.addGoodsToCollect=function(itemId){
+        cartService.addGoodsToCollect(itemId).success(
             function(response){
-                $scope.cartList=response;
-                $scope.totalValue= cartService.sum($scope.cartList);
+                if(response.success){//如果成功
+                    $scope.findCartList();
+                }else{
+                    alert(response.message);
+                }
             }
         );
     }
-
 
 
 	
