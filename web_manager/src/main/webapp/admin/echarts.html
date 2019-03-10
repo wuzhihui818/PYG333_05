@@ -55,6 +55,46 @@
                     name: '销售额',
                     //折线图
                     type: 'line',
+                    itemStyle: {
+                        normal: {
+                            color: 'rgb(255, 70, 131)'
+                        }
+                    },
+                    areaStyle: {
+                        normal: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgb(255, 158, 68)'
+                            }, {
+                                offset: 1,
+                                color: 'rgb(255, 70, 131)'
+                            }])
+                        }
+                    },
+                    toolbox: {
+
+                        show: true,
+
+                        feature: {
+
+                            dataZoom: {
+
+                                yAxisIndex: 'none'
+
+                            },
+
+                            dataView: {readOnly: false},
+
+                            magicType: {type: ['line', 'bar']},
+
+                            restore: {},
+
+                            saveAsImage: {}
+
+                        }
+
+                    },
+
                     data: dataToFixed(data)//处理小数点数据
                 }
             ]
@@ -62,15 +102,15 @@
         //使用刚指定的配置项和数据显示图表
         myChart.setOption(option);
     }
-    //buttion调用的方法
+    //button调用的方法
     function getData() {
         var start = $('#start').val();
         var end = $('#end').val();
-        var sellerId=$('#sellerId').val();
+        var idList=$('#idList').val();
         //异步请求
         $.post(
             "../ordersale/getData.do",//访问地址
-            {start: start, end: end,sellerId : sellerId},//携带的参数
+            {start: start, end: end,idList : idList},//携带的参数
             function (data) {
                   generateChart(data);
 
@@ -82,8 +122,14 @@
 <div align="center">
     <label for="start">开始日期：</label><input id="start" type="date" value="2017-08-22"/>
     <label for="end">结束日期：</label><input id="end" type="date" value="2017-08-29"/>
-    <label for="sellerId">商家名称：</label><input id="sellerId" type="text" />
+    <!--<label for="sellerId">商家名称：</label><input id="sellerId" type="text" />-->
+    <select id="idList">
+        <option id="sellerId1" value ="pyg">pyg</option>
+        <option id="sellerId2" value ="yijia">yijia</option>
+        <option id="sellerId3" value ="qiandu">qiandu</option>
+    </select>
     <button onclick="getData()">查询</button>
+
 </div>
 <hr>
 <!-- 为ECharts准备一个具备大小（宽高）的DOM容器-->

@@ -9,26 +9,18 @@
 <script src='../js/plugins/echarts/echarts.common.min.js'></script>
 <script src="../js/plugins/jquery/jquery.min.js"></script>
 <script>
-    //将集合中的数据保留两位小数
-    function dataToFixed(data) {
-        var seriesData = [];
-        for (var i = 0; i < data.seriesSaleList.length; i++) {
-            //将销量保留两位小数
-            var temp = data.seriesSaleList[i].toFixed(2);
-            seriesData.push(temp);
-        }
-        return seriesData;
-    }
+
 
     //生成图标的方法
-    function generateChart(data) {
+    function generateChart(getDateList,getMoneyList) {
+
         //基于准备好的DOM，初始化echarts实例
         var myChart = echarts.init(document.getElementById('main'));
         //指定图表的配置项和数据
         myChart.clear();
         option = {
             title: {
-                text: '商家销售柱状图',
+                text: '商家销售额',
                 x: 'center'
             },
             tooltip: {
@@ -38,21 +30,37 @@
             legend: {
                 orient: 'vertical',
                 left: 'left',
-                data: [data.xAxisList]
+               data:[getDateList[0],getDateList[1],getDateList[2],getDateList[3],getDateList[4],getDateList[5],
+                   getDateList[6],getDateList[7],getDateList[8],getDateList[9]]
+                // data: ['2017-08-23','2017-08-24','2017-08-25','2017-08-26','2017-08-27','2017-08-28']
             },
             series: [
                 {
-                    name: '访问来源',
+                    name: '当日销售额',
                     type: 'pie',
                     radius: '55%',
                     center: ['50%', '60%'],
-                    data: [
-                        {value: dataToFixed(data)},//处理小数点数据, name:'直接访问'
-                        // {value: dataToFixed(data)},//, name: '邮件营销'
-                        // {value: dataToFixed(data)},//, name: '联盟广告'
-                        // {value: dataToFixed(data)},//, name: '视频广告'
-                        // {value: dataToFixed(data)} //, name: '搜索引擎'
-                    ],
+                     data: [{value:getMoneyList[0],name:getDateList[0]},
+                         {value:getMoneyList[1],name:getDateList[1]},
+                         {value:getMoneyList[2],name:getDateList[2]},
+                         {value:getMoneyList[3],name:getDateList[3]},
+                         {value:getMoneyList[4],name:getDateList[4]},
+                         {value:getMoneyList[5],name:getDateList[5]},
+                         {value:getMoneyList[6],name:getDateList[6]},
+                         {value:getMoneyList[7],name:getDateList[7]},
+                         {value:getMoneyList[8],name:getDateList[8]},
+                         {value:getMoneyList[9],name:getDateList[9]},
+                         ],
+
+
+
+                        // {}
+                        //,处理小数点数据
+                        // ,//
+                        // {value: dataToFixed(data.seriesSaleList), name: data.xAxisList},//
+                        // {value: dataToFixed(data.seriesSaleList), name: data.xAxisList},//
+                        // {value: dataToFixed(data.seriesSaleList), name: data.xAxisList} //
+
                     itemStyle: {
                         emphasis: {
                             shadowBlur: 10,
@@ -66,27 +74,52 @@
         //使用刚指定的配置项和数据显示图表
         myChart.setOption(option);
     }
-        //buttion调用的方法
+        //button调用的方法
         function getData() {
             var start = $('#start').val();
             var end = $('#end').val();
-            var sellerId = $('#sellerId').val();
+            var idList = $('#idList').val();
             //异步请求
             $.post(
                 "../ordersale/getData.do",//访问地址
-                {start: start, end: end, sellerId: sellerId},//携带的参数
+                {start: start, end: end, idList: idList},//携带的参数
                 function (data) {
-                    generateChart(data);
+                    var getDateList=[];
+                    var getMoneyList=[];
+                    for(var i in data.xAxisList)
+                    { getDateList.push(data.xAxisList[i]);
+                     }
+                    for(var i in data.seriesSaleList)
+                    { getMoneyList.push(data.seriesSaleList[i]);
+                    }
+
+                    generateChart(getDateList,getMoneyList);
                 },
                 "json"
             );
 
     }
+
+    //将集合中的数据保留两位小数
+    function dataToFixed(data) {
+        var seriesData = [];
+        for (var i = 0; i<data.seriesSaleList.length; i++) {
+            //将销量保留两位小数
+            var temp = data.seriesSaleList[i].toFixed(2);
+            seriesData.push(temp);
+        }
+        return seriesData;
+    }
 </script>
 <div align="center">
     <label for="start">开始日期：</label><input id="start" type="date" value="2017-08-23"/>
-    <label for="end">结束日期：</label><input id="end" type="date" value="2017-08-26"/>
-    <label for="sellerId">商家名称：</label><input id="sellerId" type="text"/>
+    <label for="end">结束日期：</label><input id="end" type="date" value="2017-08-29"/>
+    <!--<label for="sellerId">商家名称：</label><input id="sellerId" type="text"/>-->
+    <select id="idList">
+        <option id="sellerId1" value ="pyg">pyg</option>
+        <option id="sellerId2" value ="yijia">yijia</option>
+        <option id="sellerId3" value ="qiandu">qiandu</option>
+    </select>
     <button onclick="getData()">查询</button>
 </div>
 <hr>
