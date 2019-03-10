@@ -41,7 +41,6 @@ public class OrderControllerCFJ {
     public OrderEntity serach(@RequestBody Order order) {
         //获取当前用户用户id  seller id
         String sellerId = SecurityContextHolder.getContext().getAuthentication().getName();
-        System.out.println(sellerId);
         String longtime = order.getLongtime();
         String[] times = longtime.split(" - ");
         order.setSellerId(sellerId);
