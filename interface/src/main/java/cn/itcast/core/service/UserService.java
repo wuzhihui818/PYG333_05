@@ -26,6 +26,12 @@ public interface UserService {
 
     public  void  add(User user);
 
+    PageResult search(Integer page, Integer rows, User user);
+
+    void updateStatus(Long[] ids, String status);
+
+    List<User> findOne(String username);
+
     List<User> findAlluser();
 
     Integer queryTotalCount();

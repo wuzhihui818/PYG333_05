@@ -1,101 +1,53 @@
-// 定义控制器:
-app.controller("userController",function($scope,$controller,$http,userService){
-	// AngularJS中的继承:伪继承
-	$controller('baseController',{$scope:$scope});
-	
-	// 查询所有的品牌列表的方法:
-	$scope.findAll = function(){
-		// 向后台发送请求:
-		userService.findAll().success(function(response){
-			$scope.list = response;
-		});
-	}
+ //控制层
+app.controller('userController' ,function($scope,$controller   ,userService){
+    $controller('baseController',{$scope:$scope});//继承
 
+	//注册用户
+	$scope.reg=function(){
 
-	// 分页查询
-	$scope.findByPage = function(page,rows){
-		// 向后台发送请求获取数据:
-        userService.findByPage(page,rows).success(function(response){
-			$scope.paginationConf.totalItems = response.total;
-			$scope.list = response.rows;
-		});
-	}
-	
-	// 保存品牌的方法:
-	$scope.save = function(){
-		// 区分是保存还是修改
-		var object;
-		if($scope.entity.id != null){
-			// 更新
-			object = userService.update($scope.entity);
-		}else{
-			// 保存
-			object = userService.save($scope.entity);
+		//比较两次输入的密码是否一致
+		if($scope.password!=$scope.entity.password){
+			alert("两次输入密码不一致，请重新输入");
+			$scope.entity.password="";
+			$scope.password="";
+			return ;
 		}
-		object.success(function(response){
-			// {success:true,message:xxx}
-			// 判断保存是否成功:
-			if(response.success==true){
-				// 保存成功
-				alert(response.message);
-				$scope.reloadList();
-			}else{
-				// 保存失败
+		//新增
+		userService.add($scope.entity,$scope.smscode).success(
+			function(response){
 				alert(response.message);
 			}
-		});
+		);
 	}
-	
-	// 查询一个:
-	$scope.findById = function(id){
-        userService.findById(id).success(function(response){
-			// {id:xx,name:yy,firstChar:zz}
-			$scope.entity = response;
-		});
-	}
-	
-	// 删除品牌:
-	$scope.dele = function(){
-        userService.dele($scope.selectIds).success(function(response){
-			// 判断保存是否成功:
-			if(response.success==true){
-				// 保存成功
-				// alert(response.message);
-				$scope.reloadList();
-				$scope.selectIds = [];
-			}else{
-				// 保存失败
+
+	//发送验证码
+	$scope.sendCode=function(){
+		if($scope.entity.phone==null || $scope.entity.phone==""){
+			alert("请填写手机号码");
+			return ;
+		}
+
+		userService.sendCode($scope.entity.phone  ).success(
+			function(response){
 				alert(response.message);
 			}
-		});
-	}
-	
-	$scope.searchEntity={};
-	
-	// 假设定义一个查询的实体：searchEntity
-	$scope.search = function(page,rows){
-		// 向后台发送请求获取数据:
-        userService.search(page,rows,$scope.searchEntity).success(function(response){
-			$scope.paginationConf.totalItems = response.total;
-			$scope.list = response.rows;
-		});
+		);
 	}
 
-
-
-	//品牌审核
-    $scope.updateStatus = function(status){
-        userService.updateStatus($scope.selectIds,status).success(function(response){
+    $scope.searchUser={};//定义搜索对象
+    $scope.status = ["冻结","激活"];
+    $scope.specKk = function(status){
+        userService.specKk($scope.selectIds,status).success(function(response){
             if(response.success){
-                //重新查询
-                $scope.reloadList();//重新加载
-				$scope.selectIds = [];
+                $scope.reloadList();//刷新列表
+                $scope.selectIds = [];
             }else{
                 alert(response.message);
             }
         });
     }
 
+<<<<<<< HEAD
 
     $scope.sta1 = function(){
         // 向后台发送请求:
@@ -135,3 +87,16 @@ app.controller("userController",function($scope,$controller,$http,userService){
         });
     }
 });
+=======
+    //搜索
+    $scope.search1=function(page,rows){
+        userService.search1(page,rows,$scope.searchUser).success(
+            function(response){
+                $scope.list=response.rows;
+                $scope.paginationConf.totalItems=response.total;//更新总记录数
+            }
+        );
+    }
+	
+});	
+>>>>>>> remotes/origin/xuhuayu

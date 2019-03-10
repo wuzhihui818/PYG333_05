@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,14 +15,40 @@ import java.util.List;
  * cas框架中登录过后的用户才会进入到这里, 在这里我们给用户赋予对应的访问权限, 那么在springSecurity配置的拦截器当中
  * 就会放行, 因为有权限访问
  */
+
+
 public class UserDetailServiceImpl implements UserDetailsService {
+
+    private UserService userService;
+    private HttpServletResponse response;
+
+    public void setResponse(HttpServletResponse response) {
+        this.response = response;
+    }
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         //创建权限集合
-        List<SimpleGrantedAuthority> authList =  new ArrayList<SimpleGrantedAuthority>();
-        //向权限集合中加入对应的访问权限
-        authList.add(new SimpleGrantedAuthority("ROLE_USER"));
+        List<SimpleGrantedAuthority> authList = new ArrayList<SimpleGrantedAuthority>();
+        List<cn.itcast.core.pojo.user.User> userList = userService.findOne(username);
+        if (userList!=null&&userList.size()>0){
+            for (cn.itcast.core.pojo.user.User user : userList) {
+                if ("1".equals(user.getStatus())){
 
-        return new User(username, "", authList);
+                    //向权限集合中加入对应的访问权限
+                    authList.add(new SimpleGrantedAuthority("ROLE_USER"));
+                    return new User(username, "", authList);
+                }
+            }
+        }
+
+        return new User(username,"",authList);
+
     }
+
+
 }
