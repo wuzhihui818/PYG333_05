@@ -130,7 +130,7 @@ public class PayServiceImpl implements PayService {
 
     }
 
-    //修改付款后的状态信息
+    //修改付款后的状态信心
     private void updateState(PayLog payLog) {
         String outTradeNo = payLog.getOutTradeNo();
         payLog.setTradeState("1");

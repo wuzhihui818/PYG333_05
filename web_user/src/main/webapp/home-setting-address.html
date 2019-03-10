@@ -10,9 +10,13 @@
 
     <link rel="stylesheet" type="text/css" href="css/webbase.css" />
     <link rel="stylesheet" type="text/css" href="css/pages-seckillOrder.css" />
+	<script src="plugins/angularjs/angular.min.js"></script>
+	<script type="text/javascript" src="js/base.js"></script>
+	<script type="text/javascript" src="js/controller/addressController.js"></script>
+	<script type="text/javascript" src="js/service/addressService2.js"></script>
 </head>
 
-<body>
+<body ng-app="pinyougou" ng-controller="addressController"  ng-init="findAll();selectProvinceList()">
     <!-- 头部栏位 -->
     <!--页面顶部-->
 <div id="nav-bottom">
@@ -191,7 +195,7 @@ $(function(){
                     <div class="body userAddress">
                         <div class="address-title">
                             <span class="title">地址管理</span>
-                            <a data-toggle="modal" data-target=".edit" data-keyboard="false"   class="sui-btn  btn-info add-new">添加新地址</a>
+                            <a data-toggle="modal" data-target=".edit" data-keyboard="false" class="sui-btn  btn-info add-new" ng-click="entity={}">添加新地址</a>
                             <span class="clearfix"></span>
                         </div>
                         <div class="address-detail">
@@ -205,17 +209,19 @@ $(function(){
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>刘田田</td>
-                                        <td>北京 北京市 海淀区 上地街道东北旺西路8号中关村软件园9号楼</td>
-                                        <td>1774***********4</td>
-                                        <td>
-                                            <a href="#">编辑</a>
-                                            <a href="#">删除</a>
-                                            默认地址
-                                        </td>
-                                    </tr>
-                                    <tr>
+                                    <tr ng-repeat="address in addressList">
+										<td>{{address.contact}}</td>
+										<td>{{address.address}}</td>
+										<td>{{address.mobile}}</td>
+										<td>
+											<a href="#" ng-click="findOne(address.id)" data-toggle="modal" data-target=".edit" >编辑</a>
+											<!--<button ng-click="del(address.id)">删除</button>-->
+											<a href="#" ng-click="del(address.id)">删除</a>
+											<a href="#" ng-click="moren(address.id)">设为默认</a>
+											<font color="green" size="2">{{shifoumoren[address.isDefault]}}</font>
+										</td>
+									</tr>
+                                    <!--<tr>
                                         <td>沈沉</td>
                                         <td>北京 北京市 海淀区 上地街道东北旺西路8号中关村软件园9号楼</td>
                                         <td>1774***********4</td>
@@ -224,7 +230,7 @@ $(function(){
                                             <a href="#">删除</a>
                                             <a href="#">设为默认</a>
                                         </td>
-                                    </tr>
+                                    </tr>-->
                                     
                                 </tbody>
                             </table>                          
@@ -242,7 +248,7 @@ $(function(){
                                             <div class="control-group">
                                             <label class="control-label">收货人：</label>
                                             <div class="controls">
-                                                <input type="text" class="input-medium">
+                                                <input type="text" class="input-medium" ng-model="entity.contact">
                                             </div>
                                         </div>
                                         <div class="control-group">
@@ -250,13 +256,13 @@ $(function(){
                                             <div class="controls">
                                                 <div data-toggle="distpicker">
                                                 <div class="form-group area">
-                                                    <select class="form-control" id="province1"></select>
+                                                    <select class="form-control" id="province1" ng-model="entity.provinceId" ng-options="province.provinceid as province.province for province in Cat1List"></select>
                                                 </div>
                                                 <div class="form-group area">
-                                                    <select class="form-control" id="city1"></select>
+                                                    <select class="form-control" id="city1" ng-model="entity.cityId" ng-options="city.cityid as city.city for city in Cat2List"></select>
                                                 </div>
                                                 <div class="form-group area">
-                                                    <select class="form-control" id="district1"></select>
+                                                    <select class="form-control" id="district1" ng-model="entity.townId" ng-options="area.areaid as area.area for area in Cat3List"></select>
                                                 </div>
                                             </div>
                                             </div>									 
@@ -264,13 +270,13 @@ $(function(){
                                         <div class="control-group">
                                             <label class="control-label">详细地址：</label>
                                             <div class="controls">
-                                                <input type="text" class="input-large">
+                                                <input type="text" class="input-large" ng-model="entity.address">
                                             </div>
                                         </div>
                                         <div class="control-group">
                                             <label class="control-label">联系电话：</label>
                                             <div class="controls">
-                                                <input type="text" class="input-medium">
+                                                <input type="text" class="input-medium" ng-model="entity.mobile" >
                                             </div>
                                         </div>
                                         <div class="control-group">
@@ -282,7 +288,7 @@ $(function(){
                                         <div class="control-group">
                                             <label class="control-label">地址别名：</label>
                                             <div class="controls">
-                                                <input type="text" class="input-medium">
+                                                <input type="text" class="input-medium" ng-model="entity.alias">
                                             </div>
                                             <div class="othername">
                                                 建议填写常用地址：<a href="#" class="sui-btn btn-default">家里</a>　<a href="#" class="sui-btn btn-default">父母家</a>　<a href="#" class="sui-btn btn-default">公司</a>
@@ -294,7 +300,7 @@ $(function(){
                                         
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" data-ok="modal" class="sui-btn btn-primary btn-large">确定</button>
+                                        <button type="button" data-ok="modal" class="sui-btn btn-primary btn-large" ng-click="save()">确定</button>
                                         <button type="button" data-dismiss="modal" class="sui-btn btn-default btn-large">取消</button>
                                     </div>
                                 </div>

@@ -20,11 +20,11 @@ import java.util.List;
 public class UserDetailServiceImpl implements UserDetailsService {
 
     private UserService userService;
-    private HttpServletResponse response;
+//    private HttpServletResponse response;
 
-    public void setResponse(HttpServletResponse response) {
-        this.response = response;
-    }
+//    public void setResponse(HttpServletResponse response) {
+//        this.response = response;
+//    }
 
     public void setUserService(UserService userService) {
         this.userService = userService;
@@ -38,7 +38,6 @@ public class UserDetailServiceImpl implements UserDetailsService {
         if (userList!=null&&userList.size()>0){
             for (cn.itcast.core.pojo.user.User user : userList) {
                 if ("1".equals(user.getStatus())){
-
                     //向权限集合中加入对应的访问权限
                     authList.add(new SimpleGrantedAuthority("ROLE_USER"));
                     return new User(username, "", authList);
