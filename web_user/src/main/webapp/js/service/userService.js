@@ -1,8 +1,15 @@
 //服务层
 app.service('userService',function($http){
-	    	
+
+
+    //读取列表数据绑定到表单中
+    this.findOneByuserName=function(){
+
+        return $http.get('../user/findOneByuserName.do');
+    }
+
 	//读取列表数据绑定到表单中
-	this.findAll=function(){
+	this.findAll1=function(){
 		return $http.get('../user/findAll.do');		
 	}
 	//分页 
@@ -27,11 +34,12 @@ app.service('userService',function($http){
 	}
 	//搜索
 	this.search=function(page,rows,searchEntity){
-		return $http.post('../user/search.do?page='+page+"&rows="+rows, searchEntity);
+		return $http.post('../user/search1.do?page='+page+"&rows="+rows, searchEntity);
 	}
 	//发送验证码
 	this.sendCode=function(phone){
 		return $http.get('../user/sendCode.do?phone='+phone);
 	}
-	
+
+
 });

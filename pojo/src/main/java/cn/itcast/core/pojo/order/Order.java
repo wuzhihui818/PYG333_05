@@ -2,9 +2,69 @@ package cn.itcast.core.pojo.order;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Order implements Serializable {
+
+    //一个订单对应多个订单明细
+    private List<OrderItem> OrderItemList = new ArrayList<OrderItem>();
+
+    public List<OrderItem> getOrderItemList() {
+        return OrderItemList;
+    }
+
+    public void setOrderItemList(List<OrderItem> orderItemList) {
+        OrderItemList = orderItemList;
+    }
+
+
+
+    //商品名称
+    private String setSellerNickName;
+
+    public String setSellerNickName() {
+        return setSellerNickName;
+    }
+
+    public void setSellerNickName(String setSellerNickName) {
+        this.setSellerNickName = setSellerNickName;
+    }
+
+    public String getLongtime() {
+        return longtime;
+    }
+
+    public void setLongtime(String longtime) {
+        this.longtime = longtime;
+    }
+
+    /*
+     * 陈福健
+     * 商家后台-订单统计用到的开始时间和结束时间
+     * */
+    private String longtime;
+    private String timeBegin;
+    private String timeEnd;
+
+    public String getTimeBegin() {
+        return timeBegin;
+    }
+
+    public void setTimeBegin(String timeBegin) {
+        this.timeBegin = timeBegin;
+    }
+
+    public String getTimeEnd() {
+        return timeEnd;
+    }
+
+    public void setTimeEnd(String timeEnd) {
+        this.timeEnd = timeEnd;
+    }
+
+
     /**
      * 订单id
      */
@@ -110,6 +170,9 @@ public class Order implements Serializable {
      */
     private String receiver;
 
+
+
+
     /**
      * 过期时间，定期清理
      */
@@ -129,6 +192,11 @@ public class Order implements Serializable {
      * 商家ID
      */
     private String sellerId;
+
+
+
+
+
 
     private static final long serialVersionUID = 1L;
 

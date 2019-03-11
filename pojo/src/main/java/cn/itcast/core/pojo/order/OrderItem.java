@@ -2,6 +2,7 @@ package cn.itcast.core.pojo.order;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Map;
 
 public class OrderItem implements Serializable {
     private Long id;
@@ -49,6 +50,40 @@ public class OrderItem implements Serializable {
     private String sellerId;
 
     private static final long serialVersionUID = 1L;
+   /*页面中需要价格*/
+    private BigDecimal costPirce;
+
+    public BigDecimal getCostPirce() {
+        return costPirce;
+    }
+
+    public void setCostPirce(BigDecimal costPirce) {
+        this.costPirce = costPirce;
+    }
+
+
+
+    private BigDecimal marketPrice;
+
+    public BigDecimal getMarketPrice() {
+        return marketPrice;
+    }
+
+    public void setMarketPrice(BigDecimal marketPrice) {
+        this.marketPrice = marketPrice;
+    }
+
+    private Map<String,String> spellMap;
+
+    public Map<String, String> getSpellMap() {
+        return spellMap;
+    }
+
+    public void setSpellMap(Map<String, String> spellMap) {
+        this.spellMap = spellMap;
+    }
+
+
 
     public Long getId() {
         return id;

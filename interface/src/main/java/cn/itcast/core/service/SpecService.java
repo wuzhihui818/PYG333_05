@@ -25,4 +25,7 @@ public interface SpecService {
     void updateStatus(Long[] ids, String status);
 
     PageResult search(Integer page, Integer rows, Specification spec);
+
+
+//    void updateStatus1(Long[] ids, String status);
 }

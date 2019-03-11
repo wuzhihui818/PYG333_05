@@ -530,4 +530,19 @@
       seller_id = #{sellerId,jdbcType=VARCHAR}
     where order_id = #{orderId,jdbcType=BIGINT}
   </update>
+
+  <resultMap id="aaaa" type="cn.itcast.core.pojo.entity.OrderEntity">
+    <id property="goods_name" column="goods_name"/>
+    <result property="sl" column="sl"/>
+    <result property="price" column="t.sl*goods.price"/>
+  </resultMap>
+  <select id="insertMuch" resultMap="aaaa" >
+    SELECT goods.goods_name,t.sl,t.sl*goods.price FROM (
+    SELECT sp.id,SUM(xx.num) sl FROM tb_goods sp
+    LEFT JOIN tb_order_item xx ON sp.id = xx.goods_id
+    LEFT JOIN tb_order dd ON dd. order_id = xx.order_id
+    WHERE dd.create_time &gt; #{timeBegin} AND dd.create_time &lt; #{timeEnd} and xx.seller_id=#{username}GROUP BY sp.id
+    ) t LEFT JOIN tb_goods goods ON goods.id = t.id
+  </select>
+
 </mapper>

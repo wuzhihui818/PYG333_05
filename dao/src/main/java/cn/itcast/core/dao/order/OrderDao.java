@@ -1,5 +1,6 @@
 package cn.itcast.core.dao.order;
 
+import cn.itcast.core.pojo.entity.OrderEntity;
 import cn.itcast.core.pojo.order.Order;
 import cn.itcast.core.pojo.order.OrderQuery;
 import java.util.List;
@@ -19,6 +20,8 @@ public interface OrderDao {
     List<Order> selectByExample(OrderQuery example);
 
     Order selectByPrimaryKey(Long orderId);
+
+    OrderEntity insertMuch(@Param("timeBegin") String timeBegin, @Param("timeEnd") String timeEnd, @Param("username") String username);
 
     int updateByExampleSelective(@Param("record") Order record, @Param("example") OrderQuery example);
 
