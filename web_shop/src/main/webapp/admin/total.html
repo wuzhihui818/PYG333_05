@@ -102,10 +102,11 @@
                                 <!-- {{findEntity}}-->
 					                      <!--<th class="text-center">操作</th>-->
 			                          </tr>
+                                      <tr ng-repeat="entity in findEntity">
                                           <td><input  type="checkbox"></td>
-                                          <td>{{findEntity.goods_name}}</td>
-                                          <td>{{findEntity.sl}}</td>
-                                          <td>{{findEntity.price}}</td>
+                                          <td>{{entity.goods_name}}</td>
+                                          <td>{{entity.sl}}</td>
+                                          <td>{{entity.price}}</td>
                                       </tr>
 			                      </thead>
 			                      <tbody>

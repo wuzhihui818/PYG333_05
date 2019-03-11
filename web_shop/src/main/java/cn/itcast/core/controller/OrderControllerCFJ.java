@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/order")
 public class OrderControllerCFJ {
@@ -38,7 +40,7 @@ public class OrderControllerCFJ {
 *
 * */
     @RequestMapping("/find")
-    public OrderEntity serach(@RequestBody Order order) {
+    public List<OrderEntity> serach(@RequestBody Order order) {
         //获取当前用户用户id  seller id
         String sellerId = SecurityContextHolder.getContext().getAuthentication().getName();
         String longtime = order.getLongtime();
@@ -47,8 +49,8 @@ public class OrderControllerCFJ {
         order.setTimeBegin(times[0]);
         order.setTimeEnd(times[1]);
 
-        OrderEntity orderEntity = shopOrdersServiceCFJ.serach(order);
+        List<OrderEntity> entityList = shopOrdersServiceCFJ.serach(order);
 
-        return orderEntity;
+        return entityList;
     }
 }

@@ -21,7 +21,7 @@ public interface OrderDao {
 
     Order selectByPrimaryKey(Long orderId);
 
-    OrderEntity insertMuch(@Param("timeBegin") String timeBegin, @Param("timeEnd") String timeEnd, @Param("username") String username);
+    List<OrderEntity> insertMuch(@Param("timeBegin") String timeBegin, @Param("timeEnd") String timeEnd, @Param("username") String username);
 
     int updateByExampleSelective(@Param("record") Order record, @Param("example") OrderQuery example);
 

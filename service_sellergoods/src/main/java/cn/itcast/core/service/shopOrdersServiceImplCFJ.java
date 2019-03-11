@@ -10,6 +10,8 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 
 @Service
 public class shopOrdersServiceImplCFJ implements shopOrdersServiceCFJ {
@@ -61,13 +63,13 @@ public class shopOrdersServiceImplCFJ implements shopOrdersServiceCFJ {
      *
      * */
     @Override
-    public OrderEntity serach(Order order) {
+    public List<OrderEntity> serach(Order order) {
 
         String sellerId = order.getSellerId();
         String timeBegin = order.getTimeBegin();
         String timeEnd = order.getTimeEnd();
-        OrderEntity orderEntity = orderDao.insertMuch(timeBegin, timeEnd, sellerId);
-        return orderEntity;
+        List<OrderEntity> entityList = orderDao.insertMuch(timeBegin, timeEnd, sellerId);
+        return entityList;
 
     }
 

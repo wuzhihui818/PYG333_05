@@ -5,6 +5,8 @@ import cn.itcast.core.pojo.entity.PageResult;
 import cn.itcast.core.pojo.order.Order;
 import com.alibaba.dubbo.config.annotation.Service;
 
+import java.util.List;
+
 
 public interface shopOrdersServiceCFJ {
 
@@ -18,6 +20,6 @@ public interface shopOrdersServiceCFJ {
      *   陈福健
      *
      * */
-    public OrderEntity serach(Order order);
+    public List<OrderEntity> serach(Order order);
 
 }
