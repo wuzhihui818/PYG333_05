@@ -50,7 +50,20 @@ app.controller('contentController' ,function($scope,$controller ,uploadService,c
 			}		
 		);				
 	}
-	
+    $scope.saveExcel=function(){
+        var serviceObject;//服务层对象
+        serviceObject=uploadService.saveExcel( $scope.entity);//增加
+        serviceObject.success(
+            function(response){
+                if(response.success){
+                    //重新查询
+                    $scope.reloadList();//重新加载
+                }else{
+                    alert(response.message);
+                }
+            }
+        );
+    }
 	 
 	//批量删除 
 	$scope.dele=function(){			
