@@ -8,12 +8,12 @@ public class SeckillGoods implements Serializable {
     private Long id;
 
     /**
-     * spu ID
+     * spu ID 商品id
      */
     private Long goodsId;
 
     /**
-     * sku ID
+     * sku ID 库存规格
      */
     private Long itemId;
 

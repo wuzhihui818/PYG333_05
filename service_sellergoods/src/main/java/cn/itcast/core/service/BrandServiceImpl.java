@@ -96,7 +96,8 @@ public class BrandServiceImpl implements BrandService {
     @Override
     public List<Map> selectOptionList() {
         List<Map> list = brandDao.selectOptionList();
-        return list;
+       return list;
+
     }
 
     @Override
