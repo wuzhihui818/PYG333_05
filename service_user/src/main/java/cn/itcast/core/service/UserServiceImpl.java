@@ -123,10 +123,7 @@ public class UserServiceImpl implements UserService {
         userDao.insertSelective(user);
     }
 
-
-
-
-
+    /*订单分页查询    陈福健*/
     @Override
     public PageResult search(String userName, Integer page, Integer rows, Order order) {
 
@@ -140,22 +137,18 @@ public class UserServiceImpl implements UserService {
         if(null != order && StringUtils.isNotBlank(order.getStatus())){
             criteria.andStatusEqualTo(order.getStatus());
         }
-
         //返回分页查询后的订单 格式
         Page<Order> orderList = (Page<Order>) orderDao.selectByExample(orderQuery);
 
         if (orderList != null && orderList.size() > 0) {
             for (Order order1 : orderList) {
-
-
                 //获取订单 id
                 Long orderId = order1.getOrderId();
-                //根据订单id,查询订单 详情orderItem
+                //根据订单id,查询订单详情orderItem
                 OrderItemQuery orderItemQuery = new OrderItemQuery();
                 OrderItemQuery.Criteria orderItemQueryCriteria = orderItemQuery.createCriteria();
                 orderItemQueryCriteria.andOrderIdEqualTo(orderId);
                 List<OrderItem> orderItemList = orderItemDao.selectByExample(orderItemQuery);
-
               if (orderItemList != null && orderItemList.size() > 0) {
                     for (OrderItem orderItem : orderItemList) {
                         //根据orderItem里面的itemid获取item对象
@@ -164,10 +157,8 @@ public class UserServiceImpl implements UserService {
                         orderItem.setSpellMap(item.getSpecMap());
                         orderItem.setCostPirce(item.getCostPirce());
                         orderItem.setMarketPrice(item.getMarketPrice());
-
                     }
                 }
-
                 //获取order里面的seller_id,
                 String sellerId = order1.getSellerId();
                 //根据商家id,查询商家名称
@@ -176,11 +167,8 @@ public class UserServiceImpl implements UserService {
 
                 order1.setSellerNickName(sellerNickName);
                 order1.setOrderItemList(orderItemList);
-
-
             }
         }
-
         //将结果封装到pageResult中返回
         PageResult pageResult = new PageResult(orderList.getTotal(), orderList.getResult());
         return pageResult;

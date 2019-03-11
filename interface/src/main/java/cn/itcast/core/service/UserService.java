@@ -19,6 +19,7 @@ public interface UserService {
 
 
     public PageResult search(String userName,Integer page, Integer rows ,  Order order);
+
     public List<Order> findAll(String userName);
 
     //根据用户名查找用户信息
