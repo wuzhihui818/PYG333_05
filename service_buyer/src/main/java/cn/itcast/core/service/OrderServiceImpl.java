@@ -103,7 +103,14 @@ public class OrderServiceImpl implements OrderService {
     }
 //页面分类查询数据
 
-
+    /**
+     * chenluwen
+     * @return
+     */
+    @Override
+    public List<Order> findAll() {
+        return orderDao.selectByExample(null);
+    }
 
 
 
@@ -112,7 +119,7 @@ public class OrderServiceImpl implements OrderService {
         PayLog payLog = new PayLog();
         BigDecimal totalFee = new BigDecimal("0");
         String paymentType = null;
-        List<String> orderIdList=new ArrayList<>();
+        List<String> orderIdList = new ArrayList<>();
         for (Order order : orderList) {
             totalFee = totalFee.add(order.getPayment());
             orderIdList.add(String.valueOf(order.getOrderId()));
@@ -244,6 +251,27 @@ public class OrderServiceImpl implements OrderService {
 
             return map;
         }
+    @Override
+    public PageResult findPage(Integer page, Integer rows, Order order) {
+        //创建查询对象
+        OrderQuery query = new OrderQuery();
+        if (order != null) {
+            //创建where条件对象
+            OrderQuery.Criteria criteria = query.createCriteria();
+            if (order.getOrderId() != null) {
+                criteria.andOrderIdEqualTo(order.getOrderId());
+            }
+            if (order.getStatus() != null && !"".equals(order.getStatus())){
+                criteria.andStatusEqualTo(order.getStatus());
+            }
+            if (order.getUserId() != null && !"".equals(order.getUserId())){
+                criteria.andUserIdEqualTo(order.getUserId());
+            }
+        }
+        PageHelper.startPage(page, rows);
+        Page<Order> orderList = (Page<Order>) orderDao.selectByExample(query);
+        return new PageResult(orderList.getTotal(), orderList.getResult());
+    }
     }
 
 
