@@ -1,5 +1,8 @@
 package cn.itcast.core.pojo.order;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.serializer.ToStringSerializer;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -8,6 +11,8 @@ public class Order implements Serializable {
     /**
      * 订单id
      */
+    //修改前端数据 精度丢失问题
+    @JSONField(serializeUsing= ToStringSerializer.class)
     private Long orderId;
 
     /**

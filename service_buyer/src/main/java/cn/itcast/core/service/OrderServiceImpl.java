@@ -6,10 +6,15 @@ import cn.itcast.core.dao.order.OrderDao;
 import cn.itcast.core.dao.order.OrderItemDao;
 import cn.itcast.core.pojo.entity.BuyerCart;
 import cn.itcast.core.pojo.entity.Fields;
+import cn.itcast.core.pojo.entity.PageResult;
 import cn.itcast.core.pojo.log.PayLog;
 import cn.itcast.core.pojo.order.Order;
 import cn.itcast.core.pojo.order.OrderItem;
+import cn.itcast.core.pojo.order.OrderItemQuery;
+import cn.itcast.core.pojo.order.OrderQuery;
 import com.alibaba.dubbo.config.annotation.Service;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.transaction.annotation.Transactional;
@@ -68,6 +73,38 @@ public class OrderServiceImpl implements OrderService {
 //       将redis中原来的购物车信息清除
         redisTemplate.boundHashOps(Fields.CARTLIST_REDIS).delete(userName);
     }
+
+    @Override
+    public PageResult search(Integer page, Integer rows, Order order) {
+        //条件对象
+           OrderQuery query = new OrderQuery();
+            //条件对象
+            OrderQuery.Criteria criteria = query.createCriteria();
+            criteria.andSellerIdEqualTo(order.getSellerId());
+        //分页助手
+        PageHelper.startPage(page, rows);
+        Page<Order> orderList = (Page<Order>) orderDao.selectByExample(query);
+        return new PageResult(orderList.getTotal(), orderList.getResult());
+    }
+
+    //修改发货状态 3 已发货 4 未发货
+    @Override
+    public void updateStatus(Long[] ids, String status) {
+        Order order = new Order();
+        order.setStatus(status);
+        if (ids != null){
+               for (Long id : ids) {
+                   order.setOrderId(id);
+                   orderDao.updateByPrimaryKeySelective(order);
+               }
+           }
+
+    }
+//页面分类查询数据
+
+
+
+
 
     //将订单信息存入payLog对象中
     private PayLog creatPayLog(List<Order> orderList, String userName) {
