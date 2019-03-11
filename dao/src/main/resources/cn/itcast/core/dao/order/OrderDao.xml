@@ -530,4 +530,8 @@
       seller_id = #{sellerId,jdbcType=VARCHAR}
     where order_id = #{orderId,jdbcType=BIGINT}
   </update>
+
+  <!--<select id="countPayment" resultType="java.math.BigDecimal">
+    SELECT user_id,sum(payment) FROM tb_order GROUP BY user_id
+  </select>-->
 </mapper>

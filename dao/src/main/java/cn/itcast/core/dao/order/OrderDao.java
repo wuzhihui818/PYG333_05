@@ -2,6 +2,8 @@ package cn.itcast.core.dao.order;
 
 import cn.itcast.core.pojo.order.Order;
 import cn.itcast.core.pojo.order.OrderQuery;
+
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.github.pagehelper.Page;
@@ -29,4 +31,6 @@ public interface OrderDao {
     int updateByPrimaryKeySelective(Order record);
 
     int updateByPrimaryKey(Order record);
+
+    /*List<Order> countPayment(OrderQuery example);*/
 }

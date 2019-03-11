@@ -84,7 +84,7 @@ app.controller("brandController",function($scope,$controller,$http,brandService)
     $scope.status = ["未审核","审核通过","已驳回"];
 
     //品牌审核
-    $scope.updateStatus = function(ids,status){
+    $scope.updateStatus = function(status){
         brandService.updateStatus($scope.selectIds,status).success(function(response){
             if(response.success){
                 //重新查询
